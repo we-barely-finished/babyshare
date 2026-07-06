@@ -2,11 +2,11 @@
 
 ## Current phase
 
-Foundation setup.
+Foundation verification.
 
 ## Current goal
 
-Set up a clean Nx monorepo with Angular, NestJS, PostgreSQL, Prisma, Docker Compose, GitHub, and Codex project instructions.
+Verify that the Nx workspace, Angular frontend, NestJS backend, shared libraries, Docker Compose setup, and project documentation are all correctly configured before feature development begins.
 
 ## Completed
 
@@ -17,23 +17,27 @@ Set up a clean Nx monorepo with Angular, NestJS, PostgreSQL, Prisma, Docker Comp
 - Codex installed
 - GitHub repository connected
 - Branch/folder structure repaired
+- Project documentation structure added
+- `AGENTS.md` added
+- `README.md` added
+- Initial ADRs added
+- Coding workflow documented
 
 ## In progress
 
-- Repository documentation and Codex guidance setup
+- Verifying the Nx workspace setup
 
 ## Next task
 
-Create and commit the project documentation structure:
-- `AGENTS.md`
-- `docs/PRODUCT_SCOPE.md`
-- `docs/IMPLEMENTATION_PLAN.md`
-- `docs/PROJECT_STATUS.md`
-- `docs/ARCHITECTURE.md`
-- `docs/DATA_MODEL.md`
-- `docs/API_PLAN.md`
-- `docs/CODING_WORKFLOW.md`
-- initial ADRs
+Run lightweight workspace checks:
+
+- `npx nx show projects`
+- build the Angular app
+- build the NestJS API
+- build/check shared libraries if available
+- run available tests if configured
+
+After the checks, update this file with the verified project state.
 
 ## Upcoming milestones
 

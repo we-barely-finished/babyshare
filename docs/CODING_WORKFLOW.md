@@ -1,14 +1,17 @@
-# Architecture
+# Coding Workflow
 
-Status: Draft / not fully implemented yet.
+Status: Draft.
 
-BabyShare is planned as an Nx monorepo with:
+Development should happen in small, reviewable steps.
 
-- Angular frontend in `apps/web`
-- NestJS backend in `apps/api`
-- PostgreSQL database
-- Prisma ORM
-- Shared TypeScript types in `libs/shared/types`
-- Docker Compose for local development services
+Workflow:
 
-This document should be expanded as architectural decisions are made.
+1. Check `docs/PROJECT_STATUS.md`.
+2. Pick the next smallest task.
+3. Ask Codex to implement only that task.
+4. Review the diff.
+5. Run build/test commands.
+6. Update documentation if needed.
+7. Commit the change.
+
+Do not combine unrelated features in one task.

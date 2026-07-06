@@ -1,101 +1,272 @@
-# Babyshare
+# BabyShare
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+BabyShare is a learning-first full-stack MVP for a second-hand baby items marketplace.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+The goal is to build the project in-house from start to finish, using it as a practical learning opportunity for full-stack development, local development setup, backend/frontend architecture, database design, Docker, deployment, and AI-assisted development with Codex.
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+## Product idea
 
-## Run tasks
+BabyShare allows users to post, browse, and discuss second-hand baby items such as:
 
-To run the dev server for your app, use:
+* clothes
+* toys
+* strollers
+* baby furniture
+* accessories
+* other baby-related items
 
-```sh
+Users can create profiles, post items with photos, browse recently posted items, filter/search listings, view item details, and start a chat with the seller.
+
+The MVP also includes basic admin/moderation functionality and manual listing renewals.
+
+## MVP scope
+
+### Included
+
+* User registration and login
+* User profiles
+* Item listings
+* Mandatory item title, description, category, city, and at least one photo
+* Dashboard with recently posted active items
+* Search by item title
+* Basic filters by category and city
+* Item detail page
+* Buyer/seller chat
+* Report item/user
+* Basic admin panel
+* Listing expiry after 30 days
+* Manual admin-approved listing renewals
+
+### Excluded for now
+
+* Automated payments
+* Shipping integration
+* Native mobile apps
+* Profile comments/trust reviews
+* Advanced filters
+* Automated moderation
+* Recommendation engine
+* Complex email notification system
+
+## Tech stack
+
+* Monorepo: Nx
+* Frontend: Angular
+* Backend: NestJS
+* Database: PostgreSQL
+* ORM: Prisma
+* Local infrastructure: Docker Compose
+* Shared code: TypeScript libraries under `libs/`
+* Local email testing: Mailpit
+* Future image storage: Cloudflare R2 or S3-compatible storage
+* Future production email: Resend, Postmark, or SES
+
+## Repository structure
+
+```txt
+babyshare/
+  apps/
+    web/                # Angular frontend
+    api/                # NestJS backend
+
+  libs/
+    shared/
+      types/            # Shared TypeScript types, enums, and contracts
+
+  prisma/
+    schema.prisma       # Prisma schema
+    migrations/         # Database migrations
+
+  docs/
+    PRODUCT_SCOPE.md
+    IMPLEMENTATION_PLAN.md
+    PROJECT_STATUS.md
+    ARCHITECTURE.md
+    DATA_MODEL.md
+    API_PLAN.md
+    CODING_WORKFLOW.md
+    adr/
+
+  docker-compose.yml
+  AGENTS.md
+  README.md
+```
+
+## Requirements
+
+For local development, use WSL2/Ubuntu on Windows.
+
+Required tools:
+
+* Git
+* Node.js via `nvm`
+* npm
+* Docker Desktop with WSL2 integration
+* Docker Compose
+* Codex CLI
+
+## Local setup
+
+Clone the repository:
+
+```bash
+git clone git@github.com:we-barely-finished/babyshare.git
+cd babyshare
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start local infrastructure:
+
+```bash
+docker compose up -d
+```
+
+Check running containers:
+
+```bash
+docker ps
+```
+
+Run the backend API:
+
+```bash
+npx nx serve api
+```
+
+Run the frontend web app in another terminal:
+
+```bash
 npx nx serve web
 ```
 
-To create a production bundle:
+## Useful commands
 
-```sh
+List Nx projects:
+
+```bash
+npx nx show projects
+```
+
+Build the frontend:
+
+```bash
 npx nx build web
 ```
 
-To see all available targets to run for a project, run:
+Build the backend:
 
-```sh
-npx nx show project web
+```bash
+npx nx build api
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+Run tests:
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
-
-```sh
-npx nx g @nx/angular:app demo
+```bash
+npx nx test web
+npx nx test api
 ```
 
-To generate a new library, use:
+Run affected checks:
 
-```sh
-npx nx g @nx/angular:lib mylib
+```bash
+npx nx affected -t build
+npx nx affected -t test
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+Start Docker services:
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Set up CI!
-
-### Step 1
-
-To connect to Nx Cloud, run the following command:
-
-```sh
-npx nx connect
+```bash
+docker compose up -d
 ```
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+Stop Docker services:
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-### Step 2
-
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
+```bash
+docker compose down
 ```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## Prisma
 
-## Install Nx Console
+After Prisma is configured, database migrations should be created with:
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+```bash
+npx prisma migrate dev --name <migration-name>
+```
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Generate Prisma client:
 
-## Useful links
+```bash
+npx prisma generate
+```
 
-Learn more:
+Open Prisma Studio:
 
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```bash
+npx prisma studio
+```
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## Project documentation
+
+Important project docs:
+
+* `AGENTS.md` — instructions for Codex and AI-assisted development
+* `docs/PRODUCT_SCOPE.md` — product scope and MVP boundaries
+* `docs/IMPLEMENTATION_PLAN.md` — ordered implementation roadmap
+* `docs/PROJECT_STATUS.md` — current progress and next task
+* `docs/ARCHITECTURE.md` — technical architecture overview
+* `docs/DATA_MODEL.md` — planned database model
+* `docs/API_PLAN.md` — planned backend API endpoints
+* `docs/CODING_WORKFLOW.md` — development workflow and conventions
+* `docs/adr/` — architecture decision records
+
+## Codex workflow
+
+Codex should be used as a development assistant, not as an autopilot.
+
+Before coding, Codex should read:
+
+* `AGENTS.md`
+* `docs/PRODUCT_SCOPE.md`
+* `docs/IMPLEMENTATION_PLAN.md`
+* `docs/PROJECT_STATUS.md`
+
+Codex should work in small, reviewable tasks.
+
+Good task example:
+
+```txt
+Create a minimal NestJS health endpoint at GET /api/health that returns { "status": "ok" }.
+Keep the change small.
+Run the relevant build/test command.
+Update docs/PROJECT_STATUS.md with what changed and the next recommended task.
+```
+
+Bad task example:
+
+```txt
+Build the whole app.
+```
+
+## Development principle
+
+Build the app as vertical slices.
+
+The core journey is:
+
+```txt
+Register -> create profile -> post item -> browse item -> view item details -> contact seller -> chat
+```
+
+Each milestone should produce something visible, testable, and easy to review.
+
+## Current phase
+
+Foundation setup.
+
+The immediate goal is to make sure the monorepo, Docker services, NestJS API, Angular frontend, Prisma setup, and project documentation are all in place before feature development begins.
+

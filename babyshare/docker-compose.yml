@@ -1,0 +1,24 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: babyshare-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: babyshare
+      POSTGRES_PASSWORD: babyshare
+      POSTGRES_DB: babyshare
+    ports:
+      - "5432:5432"
+    volumes:
+      - babyshare_postgres_data:/var/lib/postgresql/data
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: babyshare-mailpit
+    restart: unless-stopped
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+
+volumes:
+  babyshare_postgres_data:

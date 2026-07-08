@@ -25,19 +25,44 @@ Verify that the Nx workspace, Angular frontend, NestJS backend, shared libraries
 
 ## In progress
 
-- Verifying the Nx workspace setup
+- Resolving Nx workspace startup failure
 
 ## Next task
 
-Run lightweight workspace checks:
+Fix the local Node/Nx runtime mismatch and rerun workspace checks.
 
-- `npx nx show projects`
-- build the Angular app
-- build the NestJS API
-- build/check shared libraries if available
-- run available tests if configured
+Current verification result:
 
-After the checks, update this file with the verified project state.
+- `npx nx show projects` fails before project discovery.
+- `npx nx build api` fails before running the target.
+- `npx nx build web` fails before running the target.
+- `npx nx build types` / `shared-types` fails before running the target.
+- `npx nx test api` fails before running the target.
+- `npx nx test web` fails before running the target.
+- `npx nx test types` / `shared-types` fails before running the target.
+
+Observed local runtime:
+
+- Node.js: `v24.18.0`
+- npm: `11.16.0`
+
+Observed Nx error:
+
+- Nx plugin workers exit before establishing a connection.
+- `npx nx report` also fails with `Cannot determine the version of npm`.
+
+Recommended next check:
+
+1. Switch to a supported Node.js LTS version for the Angular/Nx toolchain.
+2. Reinstall dependencies if needed.
+3. Rerun:
+   - `npx nx show projects`
+   - `npx nx build api`
+   - `npx nx build web`
+   - `npx nx build types`
+   - `npx nx test api`
+   - `npx nx test web`
+   - `npx nx test types`
 
 ## Upcoming milestones
 

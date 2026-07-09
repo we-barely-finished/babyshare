@@ -43,13 +43,13 @@ Rules:
 - `BLOCKED`: admin blocked the user; the user cannot create listings, start chats, or send messages.
 - `DELETED`: soft-deleted account state for future use.
 
-## MVP entities
+## Implemented MVP entities
 
 ## User
 
 Represents authentication, authorization, and account status.
 
-Planned fields:
+Implemented fields:
 
 - `id`
 - `email`
@@ -71,13 +71,14 @@ MVP notes:
 - `email` must be unique.
 - Admins are represented by `role = ADMIN`.
 - Blocked/inactive/deleted states are represented by `status`.
+- New users default to `role = USER` and `status = ACTIVE`.
 - Email verification and last login tracking are intentionally excluded for now.
 
 ## UserProfile
 
 Represents personal, public profile, contact, and location data.
 
-Planned fields:
+Implemented fields:
 
 - `id`
 - `userId`
@@ -95,6 +96,8 @@ Planned fields:
 Relationships:
 
 - one `UserProfile` belongs to exactly one `User`
+- `userId` is unique to enforce one profile per user.
+- Deleting a `User` cascades to the related `UserProfile`.
 
 Public fields:
 

@@ -2,11 +2,11 @@
 
 ## Current phase
 
-Backend foundation planning.
+Backend foundation implementation.
 
 ## Current goal
 
-Define the initial user/account/profile model before implementing authentication and profile APIs.
+Add shared user/profile types before implementing authentication and profile APIs.
 
 ## Completed
 
@@ -28,14 +28,17 @@ Define the initial user/account/profile model before implementing authentication
 - Prisma integration verified
 - `GET /api/health` endpoint implemented
 - `GET /api/health/db` endpoint implemented
+- Initial Prisma `User` and `UserProfile` models implemented
+- Prisma `UserRole` and `UserStatus` enums implemented
+- Initial user/profile database migration created and applied
 
 ## In progress
 
-- Planning and implementing initial user/account/profile database model
+- Planning shared user/profile contracts
 
 ## Next task
 
-Implement only the initial Prisma models for:
+Implement shared TypeScript contracts for:
 
 - `User`
 - `UserProfile`
@@ -46,21 +49,19 @@ The implementation should not add authentication endpoints yet.
 
 ## Upcoming milestones
 
-1. Implement initial User/UserProfile Prisma models.
-2. Add Prisma migration for user/account/profile model.
-3. Add shared user/profile types.
-4. Add Auth module.
-5. Add registration endpoint.
-6. Add login endpoint.
-7. Add authenticated `GET /api/auth/me`.
-8. Add profile endpoints.
-9. Add admin user status/role endpoints.
-10. Implement items.
-11. Implement image upload.
-12. Implement dashboard/search.
-13. Implement chat.
-14. Implement reports/admin.
-15. Implement manual renewals.
+1. Add shared user/profile types.
+2. Add Auth module.
+3. Add registration endpoint.
+4. Add login endpoint.
+5. Add authenticated `GET /api/auth/me`.
+6. Add profile endpoints.
+7. Add admin user status/role endpoints.
+8. Implement items.
+9. Implement image upload.
+10. Implement dashboard/search.
+11. Implement chat.
+12. Implement reports/admin.
+13. Implement manual renewals.
 
 ## Notes
 

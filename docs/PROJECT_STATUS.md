@@ -2,11 +2,11 @@
 
 ## Current phase
 
-Foundation verification.
+Local infrastructure setup.
 
 ## Current goal
 
-Verify that the Nx workspace, Angular frontend, NestJS backend, shared libraries, Docker Compose setup, and project documentation are all correctly configured before feature development begins.
+Verify Docker Compose local services before feature development begins.
 
 ## Completed
 
@@ -22,47 +22,47 @@ Verify that the Nx workspace, Angular frontend, NestJS backend, shared libraries
 - `README.md` added
 - Initial ADRs added
 - Coding workflow documented
+- Node.js runtime switched to Node 22 LTS-compatible runtime
+- Dependencies reinstalled
+- Nx workspace project discovery verified
+- API, web, and shared types build targets verified
+- API, web, and shared types test targets verified
 
 ## In progress
 
-- Resolving Nx workspace startup failure
+- Verifying local infrastructure setup
 
 ## Next task
 
-Fix the local Node/Nx runtime mismatch and rerun workspace checks.
+Verify Docker Compose local services.
 
 Current verification result:
 
-- `npx nx show projects` fails before project discovery.
-- `npx nx build api` fails before running the target.
-- `npx nx build web` fails before running the target.
-- `npx nx build types` / `shared-types` fails before running the target.
-- `npx nx test api` fails before running the target.
-- `npx nx test web` fails before running the target.
-- `npx nx test types` / `shared-types` fails before running the target.
+- `npx nx show projects` succeeds and discovers `types`, `api-e2e`, `api`, and `web`.
+- `npx nx build api` succeeds.
+- `npx nx build web` succeeds with the existing Angular component style budget warning for `apps/web/src/app/nx-welcome.ts`.
+- `npx nx build types` succeeds.
+- `npx nx test api` succeeds: 2 suites, 3 tests.
+- `npx nx test web` succeeds: 1 suite, 1 test.
+- `npx nx test types` succeeds: 1 suite, 1 test.
 
 Observed local runtime:
 
-- Node.js: `v24.18.0`
-- npm: `11.16.0`
+- Node.js: `v22.23.1`
+- npm: `10.9.8`
 
-Observed Nx error:
+Observed Nx notes:
 
-- Nx plugin workers exit before establishing a connection.
-- `npx nx report` also fails with `Cannot determine the version of npm`.
+- `@nx/jest:jest` is deprecated and should be migrated before Nx v24.
+- `npx nx report` still fails with `Cannot determine the version of npm`.
+- Inside Codex's sandbox, Nx can fail to bind plugin/daemon sockets under `/tmp` with `EPERM`; the successful verification above was run outside the sandbox after approval.
 
 Recommended next check:
 
-1. Switch to a supported Node.js LTS version for the Angular/Nx toolchain.
-2. Reinstall dependencies if needed.
-3. Rerun:
-   - `npx nx show projects`
-   - `npx nx build api`
-   - `npx nx build web`
-   - `npx nx build types`
-   - `npx nx test api`
-   - `npx nx test web`
-   - `npx nx test types`
+1. Check whether Docker Compose services are already defined.
+2. If not present, add a minimal Docker Compose setup for PostgreSQL and Mailpit.
+3. Add or verify `.env.example`.
+4. Document local infrastructure startup in `README.md`.
 
 ## Upcoming milestones
 

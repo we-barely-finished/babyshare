@@ -49,6 +49,7 @@ Registration input:
 Notes:
 
 - Phone number should be optional.
+- Municipality should be optional.
 - Address line should be optional.
 - Bio should be optional.
 - Email verification is out of scope for now.

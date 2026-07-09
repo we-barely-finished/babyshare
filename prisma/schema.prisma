@@ -42,7 +42,7 @@ model UserProfile {
   displayName  String
   phoneNumber  String?
   city         String
-  municipality String
+  municipality String?
   addressLine  String?
   bio          String?
   createdAt    DateTime @default(now())

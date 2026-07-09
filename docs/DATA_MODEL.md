@@ -116,6 +116,7 @@ Private fields:
 MVP notes:
 
 - Each user has exactly one profile.
+- Municipality is optional.
 - Multiple addresses are not supported in the MVP.
 - Multiple contact methods are not supported in the MVP.
 - Profile avatar/photo is intentionally excluded for now.

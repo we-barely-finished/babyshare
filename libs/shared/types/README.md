@@ -1,11 +1,21 @@
-# types
+# Shared Types
 
-This library was generated with [Nx](https://nx.dev).
+This library contains TypeScript contracts shared by the API and web apps.
 
-## Building
+Use it for API-facing enums, request shapes, and response shapes that both sides
+need to understand. Do not put Prisma models, NestJS DTO classes, Angular-only
+types, or backend-only implementation details here.
 
-Run `nx build types` to build the library.
+Current user/profile contracts distinguish between:
 
-## Running unit tests
+- `PublicUserProfile`: profile fields that may be shown publicly
+- `MyUserProfile`: the currently authenticated user's own profile, including
+  private profile fields
+- `MyUser`: the currently authenticated user response shape
 
-Run `nx test types` to execute the unit tests via [Jest](https://jestjs.io).
+Build and test:
+
+```bash
+npx nx build types
+npx nx test types
+```

@@ -6,7 +6,7 @@ Backend foundation implementation.
 
 ## Current goal
 
-Implement `POST /api/auth/register`.
+Implement `POST /api/auth/login`.
 
 ## Completed
 
@@ -35,28 +35,32 @@ Implement `POST /api/auth/register`.
 - AuthModule skeleton added
 - UsersService foundation added
 - User/profile mapper functions added for shared contracts
+- `POST /api/auth/register` endpoint implemented
+- Registration password hashing with Argon2 added
+- Global request validation pipe added
+- UserProfile municipality made optional
+- Lightweight backend/shared developer documentation added
 
 ## In progress
 
-- Planning `POST /api/auth/register`
+- Planning `POST /api/auth/login`
 
 ## Next task
 
-Implement `POST /api/auth/register`.
+Implement `POST /api/auth/login`.
 
 ## Upcoming milestones
 
-1. Add registration endpoint.
-2. Add login endpoint.
-3. Add authenticated `GET /api/auth/me`.
-4. Add profile endpoints.
-5. Add admin user status/role endpoints.
-6. Implement items.
-7. Implement image upload.
-8. Implement dashboard/search.
-9. Implement chat.
-10. Implement reports/admin.
-11. Implement manual renewals.
+1. Add login endpoint.
+2. Add authenticated `GET /api/auth/me`.
+3. Add profile endpoints.
+4. Add admin user status/role endpoints.
+5. Implement items.
+6. Implement image upload.
+7. Implement dashboard/search.
+8. Implement chat.
+9. Implement reports/admin.
+10. Implement manual renewals.
 
 ## Notes
 

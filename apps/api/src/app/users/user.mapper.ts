@@ -11,6 +11,9 @@ export type UserWithProfile = User & {
   profile: UserProfile;
 };
 
+/**
+ * Maps a profile to the fields safe for public profile responses.
+ */
 export function mapPublicUserProfile(
   profile: UserProfile,
 ): PublicUserProfile {
@@ -23,6 +26,9 @@ export function mapPublicUserProfile(
   };
 }
 
+/**
+ * Maps a profile to the current user's own-profile response shape.
+ */
 export function mapMyUserProfile(profile: UserProfile): MyUserProfile {
   return {
     ...mapPublicUserProfile(profile),
@@ -33,6 +39,9 @@ export function mapMyUserProfile(profile: UserProfile): MyUserProfile {
   };
 }
 
+/**
+ * Maps account and profile data to the current-user API contract.
+ */
 export function mapMyUser(user: UserWithProfile): MyUser {
   return {
     id: user.id,

@@ -6,7 +6,7 @@ Backend foundation implementation.
 
 ## Current goal
 
-Implement authenticated `GET /api/auth/me`.
+Implement profile endpoints.
 
 ## Completed
 
@@ -42,26 +42,30 @@ Implement authenticated `GET /api/auth/me`.
 - Lightweight backend/shared developer documentation added
 - `POST /api/auth/login` endpoint implemented
 - JWT access token response added for login
+- Authenticated `GET /api/auth/me` endpoint implemented
+- Minimal JWT bearer auth guard added
 
 ## In progress
 
-- Planning authenticated `GET /api/auth/me`
+- Planning profile endpoints
 
 ## Next task
 
-Implement authenticated `GET /api/auth/me`.
+Implement profile endpoints:
+
+- `GET /api/profiles/me`
+- `PATCH /api/profiles/me`
 
 ## Upcoming milestones
 
-1. Add authenticated `GET /api/auth/me`.
-2. Add profile endpoints.
-3. Add admin user status/role endpoints.
-4. Implement items.
-5. Implement image upload.
-6. Implement dashboard/search.
-7. Implement chat.
-8. Implement reports/admin.
-9. Implement manual renewals.
+1. Add profile endpoints.
+2. Add admin user status/role endpoints.
+3. Implement items.
+4. Implement image upload.
+5. Implement dashboard/search.
+6. Implement chat.
+7. Implement reports/admin.
+8. Implement manual renewals.
 
 ## Notes
 

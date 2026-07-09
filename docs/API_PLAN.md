@@ -72,6 +72,15 @@ MVP token decision:
 - refresh tokens and logout token invalidation are out of scope for now
 - blocked or deleted users cannot log in
 
+Authenticated current-user endpoint:
+
+- `GET /api/auth/me` requires a bearer token
+- token payload is read from `sub`, `email`, and `role`
+- response returns the shared `MyUser` contract
+- missing, invalid, expired, or unknown-user tokens return `401`
+- `BLOCKED` or `DELETED` users return `403`
+- `ACTIVE` and `INACTIVE` users are allowed
+
 ## Profiles
 
 Planned endpoints:

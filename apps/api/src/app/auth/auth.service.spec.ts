@@ -25,6 +25,7 @@ describe('AuthService', () => {
   let usersService: {
     createUserWithProfile: jest.Mock<Promise<MyUser>, [CreateUserWithProfileInput]>;
     findAuthUserByEmail: jest.Mock<Promise<AuthUserWithProfile | null>, [string]>;
+    findMyUserById: jest.Mock<Promise<MyUser | null>, [string]>;
   };
   let jwtService: {
     signAsync: jest.Mock<Promise<string>, [Record<string, string>]>;
@@ -34,6 +35,7 @@ describe('AuthService', () => {
     usersService = {
       createUserWithProfile: jest.fn(),
       findAuthUserByEmail: jest.fn(),
+      findMyUserById: jest.fn(),
     };
     jwtService = {
       signAsync: jest.fn(),
@@ -186,6 +188,35 @@ describe('AuthService', () => {
           password: 'supersecret',
         }),
       ).rejects.toBeInstanceOf(ForbiddenException);
+    },
+  );
+
+  it('returns the current user for active auth/me requests', async () => {
+    usersService.findMyUserById.mockResolvedValue(myUser);
+
+    await expect(authService.getMe('user-1')).resolves.toEqual(myUser);
+    expect(usersService.findMyUserById).toHaveBeenCalledWith('user-1');
+  });
+
+  it('throws unauthorized for auth/me when the user is missing', async () => {
+    usersService.findMyUserById.mockResolvedValue(null);
+
+    await expect(authService.getMe('missing-user')).rejects.toBeInstanceOf(
+      UnauthorizedException,
+    );
+  });
+
+  it.each([UserStatus.BLOCKED, UserStatus.DELETED])(
+    'throws forbidden for auth/me when the user status is %s',
+    async (status) => {
+      usersService.findMyUserById.mockResolvedValue({
+        ...myUser,
+        status,
+      });
+
+      await expect(authService.getMe('user-1')).rejects.toBeInstanceOf(
+        ForbiddenException,
+      );
     },
   );
 });

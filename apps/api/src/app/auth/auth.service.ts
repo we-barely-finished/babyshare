@@ -83,6 +83,20 @@ export class AuthService {
       user: mappedUser,
     };
   }
+
+  async getMe(userId: string): Promise<MyUser> {
+    const user = await this.usersService.findMyUserById(userId);
+
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    if (user.status === UserStatus.BLOCKED || user.status === UserStatus.DELETED) {
+      throw new ForbiddenException('User account cannot access this resource');
+    }
+
+    return user;
+  }
 }
 
 function normalizeRequiredString(value: string): string {

@@ -120,6 +120,12 @@ Install dependencies:
 npm install
 ```
 
+Create a local environment file:
+
+```bash
+cp .env.example .env
+```
+
 Start local infrastructure:
 
 ```bash
@@ -131,6 +137,20 @@ Check running containers:
 ```bash
 docker ps
 ```
+
+The Docker Compose setup starts these local services:
+
+* PostgreSQL service: `postgres`
+* PostgreSQL container: `babyshare-postgres`
+* PostgreSQL database: `babyshare`
+* PostgreSQL user: `babyshare`
+* PostgreSQL password: `babyshare`
+* PostgreSQL port: `5432`
+* Local database URL: `postgresql://babyshare:babyshare@localhost:5432/babyshare?schema=public`
+* Mailpit service: `mailpit`
+* Mailpit container: `babyshare-mailpit`
+* Mailpit SMTP port: `1025`
+* Mailpit web UI: `http://localhost:8025`
 
 Run the backend API:
 
@@ -190,18 +210,36 @@ Stop Docker services:
 docker compose down
 ```
 
-## Prisma
-
-After Prisma is configured, database migrations should be created with:
+Check Docker service status:
 
 ```bash
-npx prisma migrate dev --name <migration-name>
+docker compose ps
+```
+
+Check PostgreSQL readiness:
+
+```bash
+docker compose exec -T postgres pg_isready -U babyshare -d babyshare
+```
+
+## Prisma
+
+Validate the Prisma schema:
+
+```bash
+npx prisma validate
 ```
 
 Generate Prisma client:
 
 ```bash
 npx prisma generate
+```
+
+After Prisma models are added, database migrations should be created with:
+
+```bash
+npx prisma migrate dev --name <migration-name>
 ```
 
 Open Prisma Studio:
@@ -269,4 +307,3 @@ Each milestone should produce something visible, testable, and easy to review.
 Foundation setup.
 
 The immediate goal is to make sure the monorepo, Docker services, NestJS API, Angular frontend, Prisma setup, and project documentation are all in place before feature development begins.
-

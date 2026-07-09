@@ -6,7 +6,7 @@ Local infrastructure setup.
 
 ## Current goal
 
-Verify Docker Compose local services before feature development begins.
+Prepare the backend foundation after local infrastructure verification.
 
 ## Completed
 
@@ -27,14 +27,21 @@ Verify Docker Compose local services before feature development begins.
 - Nx workspace project discovery verified
 - API, web, and shared types build targets verified
 - API, web, and shared types test targets verified
+- Docker Compose local services verified
+- PostgreSQL local service verified
+- Mailpit local service verified
+- Prisma schema validation verified
+- Prisma client generation verified
+- `.env.example` added with local database and email settings
+- README local infrastructure setup documented
 
 ## In progress
 
-- Verifying local infrastructure setup
+- Preparing the next backend setup task
 
 ## Next task
 
-Verify Docker Compose local services.
+Add the first backend foundation check: a minimal NestJS `GET /api/health` endpoint, then run the relevant API build/test verification.
 
 Current verification result:
 
@@ -57,12 +64,25 @@ Observed Nx notes:
 - `npx nx report` still fails with `Cannot determine the version of npm`.
 - Inside Codex's sandbox, Nx can fail to bind plugin/daemon sockets under `/tmp` with `EPERM`; the successful verification above was run outside the sandbox after approval.
 
+Docker Compose and local infrastructure verification result:
+
+- `docker-compose.yml` defines two services: `postgres` and `mailpit`.
+- PostgreSQL uses image `postgres:16`, container `babyshare-postgres`, database `babyshare`, user `babyshare`, password `babyshare`, and host port `5432`.
+- PostgreSQL readiness check succeeds with `pg_isready -U babyshare -d babyshare`.
+- PostgreSQL query verification succeeds and reports current database `babyshare` and current user `babyshare`.
+- Mailpit uses image `axllent/mailpit:latest`, container `babyshare-mailpit`, SMTP port `1025`, and web UI port `8025`.
+- `docker compose ps` reports both `babyshare-postgres` and `babyshare-mailpit` running; Mailpit is healthy.
+- Existing `.env` contains `DATABASE_URL` for the local PostgreSQL service. It does not yet contain local email settings.
+- `.env.example` now contains `DATABASE_URL`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, and `MAIL_FROM`.
+- `npx prisma validate` succeeds.
+- `npx prisma generate` succeeds and generates Prisma Client 7.8.0 to `generated/prisma`.
+- README now documents local env setup, Docker service names, database credentials, ports, Mailpit access, and Prisma validation/generation commands.
+
 Recommended next check:
 
-1. Check whether Docker Compose services are already defined.
-2. If not present, add a minimal Docker Compose setup for PostgreSQL and Mailpit.
-3. Add or verify `.env.example`.
-4. Document local infrastructure startup in `README.md`.
+1. Add a minimal NestJS health endpoint at `GET /api/health`.
+2. Run the relevant API build/test verification.
+3. Update project status with the result.
 
 ## Upcoming milestones
 

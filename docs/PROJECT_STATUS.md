@@ -6,7 +6,7 @@ Backend foundation implementation.
 
 ## Current goal
 
-Add shared user/profile types before implementing authentication and profile APIs.
+Plan the AuthModule skeleton before implementing authentication endpoints.
 
 ## Completed
 
@@ -31,37 +31,30 @@ Add shared user/profile types before implementing authentication and profile API
 - Initial Prisma `User` and `UserProfile` models implemented
 - Prisma `UserRole` and `UserStatus` enums implemented
 - Initial user/profile database migration created and applied
+- Shared user/profile TypeScript contracts implemented
 
 ## In progress
 
-- Planning shared user/profile contracts
+- Planning AuthModule skeleton
 
 ## Next task
 
-Implement shared TypeScript contracts for:
-
-- `User`
-- `UserProfile`
-- `UserRole`
-- `UserStatus`
-
-The implementation should not add authentication endpoints yet.
+Plan and add the initial AuthModule skeleton without implementing authentication endpoints yet.
 
 ## Upcoming milestones
 
-1. Add shared user/profile types.
-2. Add Auth module.
-3. Add registration endpoint.
-4. Add login endpoint.
-5. Add authenticated `GET /api/auth/me`.
-6. Add profile endpoints.
-7. Add admin user status/role endpoints.
-8. Implement items.
-9. Implement image upload.
-10. Implement dashboard/search.
-11. Implement chat.
-12. Implement reports/admin.
-13. Implement manual renewals.
+1. Add Auth module.
+2. Add registration endpoint.
+3. Add login endpoint.
+4. Add authenticated `GET /api/auth/me`.
+5. Add profile endpoints.
+6. Add admin user status/role endpoints.
+7. Implement items.
+8. Implement image upload.
+9. Implement dashboard/search.
+10. Implement chat.
+11. Implement reports/admin.
+12. Implement manual renewals.
 
 ## Notes
 

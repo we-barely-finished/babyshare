@@ -1,8 +1,14 @@
-import { ConflictException } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
-import { MyUser, UserRole, UserStatus } from '@babyshare/types';
+import {
+  ConflictException,
+  ForbiddenException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { Prisma, User, UserProfile } from '@prisma/client';
+import { AuthSession, MyUser, UserRole, UserStatus } from '@babyshare/types';
 import * as argon2 from 'argon2';
 import {
+  AuthUserWithProfile,
   CreateUserWithProfileInput,
   UsersService,
 } from '../users/users.service';
@@ -11,20 +17,34 @@ import { RegisterRequestDto } from './dto/register-request.dto';
 
 jest.mock('argon2', () => ({
   hash: jest.fn(),
+  verify: jest.fn(),
 }));
 
 describe('AuthService', () => {
   let authService: AuthService;
   let usersService: {
     createUserWithProfile: jest.Mock<Promise<MyUser>, [CreateUserWithProfileInput]>;
+    findAuthUserByEmail: jest.Mock<Promise<AuthUserWithProfile | null>, [string]>;
+  };
+  let jwtService: {
+    signAsync: jest.Mock<Promise<string>, [Record<string, string>]>;
   };
 
   beforeEach(() => {
     usersService = {
       createUserWithProfile: jest.fn(),
+      findAuthUserByEmail: jest.fn(),
     };
-    authService = new AuthService(usersService as unknown as UsersService);
+    jwtService = {
+      signAsync: jest.fn(),
+    };
+    authService = new AuthService(
+      usersService as unknown as UsersService,
+      jwtService as unknown as JwtService,
+    );
     jest.mocked(argon2.hash).mockResolvedValue('hashed-password');
+    jest.mocked(argon2.verify).mockResolvedValue(true);
+    jwtService.signAsync.mockResolvedValue('signed.jwt.token');
   });
 
   afterEach(() => {
@@ -100,4 +120,120 @@ describe('AuthService', () => {
       } satisfies RegisterRequestDto),
     ).rejects.toBeInstanceOf(ConflictException);
   });
+
+  it('logs in with valid credentials and returns an auth session', async () => {
+    usersService.findAuthUserByEmail.mockResolvedValue(authUser);
+
+    const result = await authService.login({
+      email: ' Parent@Example.COM ',
+      password: 'supersecret',
+    });
+
+    expect(usersService.findAuthUserByEmail).toHaveBeenCalledWith(
+      'parent@example.com',
+    );
+    expect(argon2.verify).toHaveBeenCalledWith(
+      'hashed-password',
+      'supersecret',
+    );
+    expect(jwtService.signAsync).toHaveBeenCalledWith({
+      sub: 'user-1',
+      email: 'parent@example.com',
+      role: UserRole.USER,
+    });
+    expect(result).toEqual({
+      accessToken: 'signed.jwt.token',
+      tokenType: 'Bearer',
+      user: myUser,
+    } satisfies AuthSession);
+  });
+
+  it('throws unauthorized when the email is unknown', async () => {
+    usersService.findAuthUserByEmail.mockResolvedValue(null);
+
+    await expect(
+      authService.login({
+        email: 'missing@example.com',
+        password: 'supersecret',
+      }),
+    ).rejects.toBeInstanceOf(UnauthorizedException);
+    expect(argon2.verify).not.toHaveBeenCalled();
+  });
+
+  it('throws unauthorized when the password is invalid', async () => {
+    usersService.findAuthUserByEmail.mockResolvedValue(authUser);
+    jest.mocked(argon2.verify).mockResolvedValue(false);
+
+    await expect(
+      authService.login({
+        email: 'parent@example.com',
+        password: 'wrong-password',
+      }),
+    ).rejects.toBeInstanceOf(UnauthorizedException);
+  });
+
+  it.each(['BLOCKED', 'DELETED'] as const)(
+    'throws forbidden when the user status is %s',
+    async (status) => {
+      usersService.findAuthUserByEmail.mockResolvedValue({
+        ...authUser,
+        status,
+      });
+
+      await expect(
+        authService.login({
+          email: 'parent@example.com',
+          password: 'supersecret',
+        }),
+      ).rejects.toBeInstanceOf(ForbiddenException);
+    },
+  );
 });
+
+const user: User = {
+  id: 'user-1',
+  email: 'parent@example.com',
+  passwordHash: 'hashed-password',
+  role: 'USER',
+  status: 'ACTIVE',
+  createdAt: new Date('2026-07-09T00:00:00.000Z'),
+  updatedAt: new Date('2026-07-09T00:00:00.000Z'),
+};
+
+const profile: UserProfile = {
+  id: 'profile-1',
+  userId: 'user-1',
+  firstName: 'Ana',
+  lastName: 'Petrovic',
+  displayName: 'Ana P.',
+  phoneNumber: null,
+  city: 'Belgrade',
+  municipality: null,
+  addressLine: null,
+  bio: null,
+  createdAt: new Date('2026-07-09T00:00:00.000Z'),
+  updatedAt: new Date('2026-07-09T00:00:00.000Z'),
+};
+
+const authUser: AuthUserWithProfile = {
+  ...user,
+  profile,
+};
+
+const myUser: MyUser = {
+  id: 'user-1',
+  email: 'parent@example.com',
+  role: UserRole.USER,
+  status: UserStatus.ACTIVE,
+  profile: {
+    userId: 'user-1',
+    firstName: 'Ana',
+    lastName: 'Petrovic',
+    displayName: 'Ana P.',
+    phoneNumber: null,
+    city: 'Belgrade',
+    municipality: null,
+    addressLine: null,
+    bio: null,
+  },
+};

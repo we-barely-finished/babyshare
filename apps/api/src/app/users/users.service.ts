@@ -8,6 +8,10 @@ type PrismaUserWithProfile = Prisma.UserGetPayload<{
   include: { profile: true };
 }>;
 
+export type AuthUserWithProfile = User & {
+  profile: UserProfile;
+};
+
 export interface CreateUserWithProfileInput {
   email: string;
   passwordHash: string;
@@ -76,6 +80,19 @@ export class UsersService {
       where: { id: userId },
       include: { profile: true },
     });
+  }
+
+  async findAuthUserByEmail(email: string): Promise<AuthUserWithProfile | null> {
+    const user = await this.prismaService.user.findUnique({
+      where: { email },
+      include: { profile: true },
+    });
+
+    if (!user?.profile) {
+      return null;
+    }
+
+    return toUserWithProfile(user, user.profile);
   }
 }
 

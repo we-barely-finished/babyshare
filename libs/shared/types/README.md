@@ -12,6 +12,7 @@ Current user/profile contracts distinguish between:
 - `MyUserProfile`: the currently authenticated user's own profile, including
   private profile fields
 - `MyUser`: the currently authenticated user response shape
+- `AuthSession`: the login response shape containing a bearer token and user
 
 Build and test:
 

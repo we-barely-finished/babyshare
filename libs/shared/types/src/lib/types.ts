@@ -43,6 +43,15 @@ export interface MyUser {
 }
 
 /**
+ * Authentication response returned after a successful login.
+ */
+export interface AuthSession {
+  accessToken: string;
+  tokenType: 'Bearer';
+  user: MyUser;
+}
+
+/**
  * Patch-style request shape for future own-profile updates.
  */
 export interface UpdateMyUserProfileRequest {

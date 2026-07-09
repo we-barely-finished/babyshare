@@ -6,7 +6,7 @@ Backend foundation implementation.
 
 ## Current goal
 
-Implement `POST /api/auth/login`.
+Implement authenticated `GET /api/auth/me`.
 
 ## Completed
 
@@ -40,27 +40,28 @@ Implement `POST /api/auth/login`.
 - Global request validation pipe added
 - UserProfile municipality made optional
 - Lightweight backend/shared developer documentation added
+- `POST /api/auth/login` endpoint implemented
+- JWT access token response added for login
 
 ## In progress
 
-- Planning `POST /api/auth/login`
+- Planning authenticated `GET /api/auth/me`
 
 ## Next task
 
-Implement `POST /api/auth/login`.
+Implement authenticated `GET /api/auth/me`.
 
 ## Upcoming milestones
 
-1. Add login endpoint.
-2. Add authenticated `GET /api/auth/me`.
-3. Add profile endpoints.
-4. Add admin user status/role endpoints.
-5. Implement items.
-6. Implement image upload.
-7. Implement dashboard/search.
-8. Implement chat.
-9. Implement reports/admin.
-10. Implement manual renewals.
+1. Add authenticated `GET /api/auth/me`.
+2. Add profile endpoints.
+3. Add admin user status/role endpoints.
+4. Implement items.
+5. Implement image upload.
+6. Implement dashboard/search.
+7. Implement chat.
+8. Implement reports/admin.
+9. Implement manual renewals.
 
 ## Notes
 

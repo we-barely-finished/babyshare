@@ -54,6 +54,24 @@ Notes:
 - Bio should be optional.
 - Email verification is out of scope for now.
 
+Login input:
+
+- `email`
+- `password`
+
+Login response:
+
+- `accessToken`
+- `tokenType = Bearer`
+- `user`
+
+MVP token decision:
+
+- login returns a signed JWT access token
+- token payload includes `sub`, `email`, and `role`
+- refresh tokens and logout token invalidation are out of scope for now
+- blocked or deleted users cannot log in
+
 ## Profiles
 
 Planned endpoints:

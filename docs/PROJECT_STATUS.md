@@ -2,11 +2,11 @@
 
 ## Current phase
 
-Backend foundation.
+Backend foundation planning.
 
 ## Current goal
 
-Prepare the initial BabyShare data model.
+Define the initial user/account/profile model before implementing authentication and profile APIs.
 
 ## Completed
 
@@ -22,96 +22,59 @@ Prepare the initial BabyShare data model.
 - `README.md` added
 - Initial ADRs added
 - Coding workflow documented
-- Node.js runtime switched to Node 22 LTS-compatible runtime
-- Dependencies reinstalled
-- Nx workspace project discovery verified
-- API, web, and shared types build targets verified
-- API, web, and shared types test targets verified
-- Docker Compose local services verified
-- PostgreSQL local service verified
-- Mailpit local service verified
-- Prisma schema validation verified
-- Prisma client generation verified
-- `.env.example` added with local database and email settings
-- README local infrastructure setup documented
-- Minimal NestJS `GET /api/health` endpoint verified
-- API `PrismaModule` and `PrismaService` added
-- Prisma Client generation switched to the `@prisma/client` import path
-- Database health endpoint added at `GET /api/health/db`
-- API database connectivity to local PostgreSQL verified
+- Node.js version switched to supported LTS version
+- Nx workspace verification completed
+- Docker Compose/local infrastructure verification completed
+- Prisma integration verified
+- `GET /api/health` endpoint implemented
+- `GET /api/health/db` endpoint implemented
 
 ## In progress
 
-- Preparing the initial Prisma schema for BabyShare core entities
+- Planning and implementing initial user/account/profile database model
 
 ## Next task
 
-Define the initial Prisma schema for BabyShare core entities.
+Implement only the initial Prisma models for:
 
-Current verification result:
+- `User`
+- `UserProfile`
+- `UserRole`
+- `UserStatus`
 
-- `npx nx show projects` succeeds and discovers `types`, `api-e2e`, `api`, and `web`.
-- `npx nx build api` succeeds after adding PrismaService and database health verification.
-- `npx nx build web` succeeds with the existing Angular component style budget warning for `apps/web/src/app/nx-welcome.ts`.
-- `npx nx build types` succeeds.
-- `npx nx test api` succeeds after adding PrismaService and database health verification: 2 suites, 5 tests.
-- `npx nx test web` succeeds: 1 suite, 1 test.
-- `npx nx test types` succeeds: 1 suite, 1 test.
-
-Observed local runtime:
-
-- Node.js: `v22.23.1`
-- npm: `10.9.8`
-
-Observed Nx notes:
-
-- `@nx/jest:jest` is deprecated and should be migrated before Nx v24.
-- `npx nx report` still fails with `Cannot determine the version of npm`.
-- Inside Codex's sandbox, Nx can fail to bind plugin/daemon sockets under `/tmp` with `EPERM`; the successful verification above was run outside the sandbox after approval.
-
-Docker Compose and local infrastructure verification result:
-
-- `docker-compose.yml` defines two services: `postgres` and `mailpit`.
-- PostgreSQL uses image `postgres:16`, container `babyshare-postgres`, database `babyshare`, user `babyshare`, password `babyshare`, and host port `5432`.
-- PostgreSQL readiness check succeeds with `pg_isready -U babyshare -d babyshare`.
-- PostgreSQL query verification succeeds and reports current database `babyshare` and current user `babyshare`.
-- Mailpit uses image `axllent/mailpit:latest`, container `babyshare-mailpit`, SMTP port `1025`, and web UI port `8025`.
-- `docker compose ps` reports both `babyshare-postgres` and `babyshare-mailpit` running; Mailpit is healthy.
-- Existing `.env` contains `DATABASE_URL` for the local PostgreSQL service. It does not yet contain local email settings.
-- `.env.example` now contains `DATABASE_URL`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, and `MAIL_FROM`.
-- `npx prisma validate` succeeds.
-- `npx prisma generate` succeeds and generates Prisma Client 7.8.0 to `node_modules/@prisma/client`.
-- README now documents local env setup, Docker service names, database credentials, ports, Mailpit access, and Prisma validation/generation commands.
-- `npx prisma validate` succeeds after switching Prisma Client generation to `@prisma/client`.
-- Live `GET /api/health/db` verification succeeds and returns `{"status":"ok","database":"connected"}` with local PostgreSQL running.
-
-Recommended next check:
-
-1. Define the initial Prisma schema for core BabyShare entities.
-2. Create the first migration.
-3. Document the model changes in `docs/DATA_MODEL.md`.
-4. Run the relevant Prisma and API verification.
-5. Update project status with the result.
+The implementation should not add authentication endpoints yet.
 
 ## Upcoming milestones
 
-1. Verify Nx workspace builds.
-2. Add/verify NestJS API app.
-3. Add/verify shared TypeScript library.
-4. Add Docker Compose for PostgreSQL and Mailpit.
-5. Add Prisma.
-6. Add first database schema.
-7. Add API health endpoint.
-8. Add first frontend API call.
-9. Implement auth.
-10. Implement profiles.
-11. Implement items.
-12. Implement image upload.
-13. Implement dashboard/search.
-14. Implement chat.
-15. Implement reports/admin.
-16. Implement manual renewals.
+1. Implement initial User/UserProfile Prisma models.
+2. Add Prisma migration for user/account/profile model.
+3. Add shared user/profile types.
+4. Add Auth module.
+5. Add registration endpoint.
+6. Add login endpoint.
+7. Add authenticated `GET /api/auth/me`.
+8. Add profile endpoints.
+9. Add admin user status/role endpoints.
+10. Implement items.
+11. Implement image upload.
+12. Implement dashboard/search.
+13. Implement chat.
+14. Implement reports/admin.
+15. Implement manual renewals.
 
 ## Notes
 
-Keep MVP scope strict. Optional features such as profile comments, automated payments, and advanced filters are intentionally excluded until the core flow is working.
+Locked MVP user/account decisions:
+
+- one email per user
+- one optional phone number per user
+- one address/location set per profile
+- no multiple contacts in MVP
+- no multiple addresses in MVP
+- no profile avatar/photo in MVP
+- no email verification timestamp in MVP
+- no last login tracking in MVP
+- admins are users with `role = ADMIN`
+- use `UserStatus` enum instead of `isActive`/`isBlocked` booleans
+- use `displayName` for public identity
+- keep phone number and exact address private by default

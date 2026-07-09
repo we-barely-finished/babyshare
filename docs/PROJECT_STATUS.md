@@ -6,7 +6,7 @@ Backend foundation.
 
 ## Current goal
 
-Prepare the API for database connectivity checks.
+Prepare the initial BabyShare data model.
 
 ## Completed
 
@@ -35,22 +35,26 @@ Prepare the API for database connectivity checks.
 - `.env.example` added with local database and email settings
 - README local infrastructure setup documented
 - Minimal NestJS `GET /api/health` endpoint verified
+- API `PrismaModule` and `PrismaService` added
+- Prisma Client generation switched to the `@prisma/client` import path
+- Database health endpoint added at `GET /api/health/db`
+- API database connectivity to local PostgreSQL verified
 
 ## In progress
 
-- Preparing PrismaService and database-backed health verification
+- Preparing the initial Prisma schema for BabyShare core entities
 
 ## Next task
 
-Add `PrismaService` and extend health verification with a database connectivity check.
+Define the initial Prisma schema for BabyShare core entities.
 
 Current verification result:
 
 - `npx nx show projects` succeeds and discovers `types`, `api-e2e`, `api`, and `web`.
-- `npx nx build api` succeeds after verifying `GET /api/health`.
+- `npx nx build api` succeeds after adding PrismaService and database health verification.
 - `npx nx build web` succeeds with the existing Angular component style budget warning for `apps/web/src/app/nx-welcome.ts`.
 - `npx nx build types` succeeds.
-- `npx nx test api` succeeds after verifying `GET /api/health`: 2 suites, 3 tests.
+- `npx nx test api` succeeds after adding PrismaService and database health verification: 2 suites, 5 tests.
 - `npx nx test web` succeeds: 1 suite, 1 test.
 - `npx nx test types` succeeds: 1 suite, 1 test.
 
@@ -76,15 +80,18 @@ Docker Compose and local infrastructure verification result:
 - Existing `.env` contains `DATABASE_URL` for the local PostgreSQL service. It does not yet contain local email settings.
 - `.env.example` now contains `DATABASE_URL`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, and `MAIL_FROM`.
 - `npx prisma validate` succeeds.
-- `npx prisma generate` succeeds and generates Prisma Client 7.8.0 to `generated/prisma`.
+- `npx prisma generate` succeeds and generates Prisma Client 7.8.0 to `node_modules/@prisma/client`.
 - README now documents local env setup, Docker service names, database credentials, ports, Mailpit access, and Prisma validation/generation commands.
+- `npx prisma validate` succeeds after switching Prisma Client generation to `@prisma/client`.
+- Live `GET /api/health/db` verification succeeds and returns `{"status":"ok","database":"connected"}` with local PostgreSQL running.
 
 Recommended next check:
 
-1. Add `PrismaService`.
-2. Add database connectivity verification to the health check.
-3. Run the relevant API build/test verification.
-4. Update project status with the result.
+1. Define the initial Prisma schema for core BabyShare entities.
+2. Create the first migration.
+3. Document the model changes in `docs/DATA_MODEL.md`.
+4. Run the relevant Prisma and API verification.
+5. Update project status with the result.
 
 ## Upcoming milestones
 

@@ -6,7 +6,7 @@ Backend foundation implementation.
 
 ## Current goal
 
-Plan the AuthModule skeleton before implementing authentication endpoints.
+Implement `POST /api/auth/register`.
 
 ## Completed
 
@@ -32,29 +32,31 @@ Plan the AuthModule skeleton before implementing authentication endpoints.
 - Prisma `UserRole` and `UserStatus` enums implemented
 - Initial user/profile database migration created and applied
 - Shared user/profile TypeScript contracts implemented
+- AuthModule skeleton added
+- UsersService foundation added
+- User/profile mapper functions added for shared contracts
 
 ## In progress
 
-- Planning AuthModule skeleton
+- Planning `POST /api/auth/register`
 
 ## Next task
 
-Plan and add the initial AuthModule skeleton without implementing authentication endpoints yet.
+Implement `POST /api/auth/register`.
 
 ## Upcoming milestones
 
-1. Add Auth module.
-2. Add registration endpoint.
-3. Add login endpoint.
-4. Add authenticated `GET /api/auth/me`.
-5. Add profile endpoints.
-6. Add admin user status/role endpoints.
-7. Implement items.
-8. Implement image upload.
-9. Implement dashboard/search.
-10. Implement chat.
-11. Implement reports/admin.
-12. Implement manual renewals.
+1. Add registration endpoint.
+2. Add login endpoint.
+3. Add authenticated `GET /api/auth/me`.
+4. Add profile endpoints.
+5. Add admin user status/role endpoints.
+6. Implement items.
+7. Implement image upload.
+8. Implement dashboard/search.
+9. Implement chat.
+10. Implement reports/admin.
+11. Implement manual renewals.
 
 ## Notes
 

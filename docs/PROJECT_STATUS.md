@@ -2,11 +2,11 @@
 
 ## Current phase
 
-Local infrastructure setup.
+Backend foundation.
 
 ## Current goal
 
-Prepare the backend foundation after local infrastructure verification.
+Prepare the API for database connectivity checks.
 
 ## Completed
 
@@ -34,22 +34,23 @@ Prepare the backend foundation after local infrastructure verification.
 - Prisma client generation verified
 - `.env.example` added with local database and email settings
 - README local infrastructure setup documented
+- Minimal NestJS `GET /api/health` endpoint verified
 
 ## In progress
 
-- Preparing the next backend setup task
+- Preparing PrismaService and database-backed health verification
 
 ## Next task
 
-Add the first backend foundation check: a minimal NestJS `GET /api/health` endpoint, then run the relevant API build/test verification.
+Add `PrismaService` and extend health verification with a database connectivity check.
 
 Current verification result:
 
 - `npx nx show projects` succeeds and discovers `types`, `api-e2e`, `api`, and `web`.
-- `npx nx build api` succeeds.
+- `npx nx build api` succeeds after verifying `GET /api/health`.
 - `npx nx build web` succeeds with the existing Angular component style budget warning for `apps/web/src/app/nx-welcome.ts`.
 - `npx nx build types` succeeds.
-- `npx nx test api` succeeds: 2 suites, 3 tests.
+- `npx nx test api` succeeds after verifying `GET /api/health`: 2 suites, 3 tests.
 - `npx nx test web` succeeds: 1 suite, 1 test.
 - `npx nx test types` succeeds: 1 suite, 1 test.
 
@@ -80,9 +81,10 @@ Docker Compose and local infrastructure verification result:
 
 Recommended next check:
 
-1. Add a minimal NestJS health endpoint at `GET /api/health`.
-2. Run the relevant API build/test verification.
-3. Update project status with the result.
+1. Add `PrismaService`.
+2. Add database connectivity verification to the health check.
+3. Run the relevant API build/test verification.
+4. Update project status with the result.
 
 ## Upcoming milestones
 

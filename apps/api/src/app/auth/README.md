@@ -12,6 +12,7 @@ Current scope:
 - password verification during login
 - JWT access token issuance
 - JWT bearer-token validation for current-user lookup
+- fail-fast startup when `JWT_SECRET` is missing
 - duplicate-email conflict handling
 - returning shared `MyUser` and `AuthSession` responses
 

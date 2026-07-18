@@ -1,5 +1,6 @@
 import { Transform } from 'class-transformer';
-import { IsEmail, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { trimString } from './trim-string';
 
 export class LoginRequestDto {
   @Transform(({ value }) => trimString(value))
@@ -7,9 +8,6 @@ export class LoginRequestDto {
   email!: string;
 
   @IsString()
+  @IsNotEmpty()
   password!: string;
-}
-
-function trimString(value: unknown): unknown {
-  return typeof value === 'string' ? value.trim() : value;
 }

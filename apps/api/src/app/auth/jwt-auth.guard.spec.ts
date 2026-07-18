@@ -52,6 +52,22 @@ describe('JwtAuthGuard', () => {
       UnauthorizedException,
     );
   });
+
+  it.each([
+    { email: 'parent@example.com', role: UserRole.USER },
+    { sub: '', email: 'parent@example.com', role: UserRole.USER },
+    { sub: 'user-1', role: UserRole.USER },
+    { sub: 'user-1', email: '', role: UserRole.USER },
+    { sub: 'user-1', email: 'parent@example.com' },
+    { sub: 'user-1', email: 'parent@example.com', role: '' },
+  ])('throws unauthorized when token payload shape is invalid', async (payload) => {
+    request.headers = { authorization: 'Bearer invalid-payload-token' };
+    jwtService.verifyAsync.mockResolvedValue(payload);
+
+    await expect(guard.canActivate(createContext(request))).rejects.toBeInstanceOf(
+      UnauthorizedException,
+    );
+  });
 });
 
 function createContext(request: Partial<RequestWithUser>): ExecutionContext {

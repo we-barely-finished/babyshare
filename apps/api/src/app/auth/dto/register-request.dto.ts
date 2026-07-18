@@ -6,6 +6,7 @@ import {
   MinLength,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
+import { trimString } from './trim-string';
 
 export class RegisterRequestDto {
   @Transform(({ value }) => trimString(value))
@@ -55,8 +56,4 @@ export class RegisterRequestDto {
   @IsOptional()
   @IsString()
   bio?: string | null;
-}
-
-function trimString(value: unknown): unknown {
-  return typeof value === 'string' ? value.trim() : value;
 }

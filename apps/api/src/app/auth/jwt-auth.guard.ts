@@ -22,7 +22,14 @@ export class JwtAuthGuard implements CanActivate {
     }
 
     try {
-      request.user = await this.jwtService.verifyAsync<JwtUserPayload>(token);
+      const payload =
+        await this.jwtService.verifyAsync<Record<string, unknown>>(token);
+
+      if (!isJwtUserPayload(payload)) {
+        throw new UnauthorizedException('Invalid bearer token');
+      }
+
+      request.user = payload;
       return true;
     } catch {
       throw new UnauthorizedException('Invalid bearer token');
@@ -44,4 +51,22 @@ function extractBearerToken(request: Request): string | null {
   }
 
   return token;
+}
+
+function isJwtUserPayload(payload: unknown): payload is JwtUserPayload {
+  if (!payload || typeof payload !== 'object') {
+    return false;
+  }
+
+  const candidate = payload as Partial<JwtUserPayload>;
+
+  return (
+    isNonEmptyString(candidate.sub) &&
+    isNonEmptyString(candidate.email) &&
+    isNonEmptyString(candidate.role)
+  );
+}
+
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === 'string' && value.trim().length > 0;
 }

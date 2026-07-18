@@ -150,6 +150,20 @@ describe('AuthService', () => {
     } satisfies AuthSession);
   });
 
+  it('allows inactive users to log in', async () => {
+    usersService.findAuthUserByEmail.mockResolvedValue({
+      ...authUser,
+      status: 'INACTIVE',
+    });
+
+    const result = await authService.login({
+      email: 'parent@example.com',
+      password: 'supersecret',
+    });
+
+    expect(result.user.status).toEqual(UserStatus.INACTIVE);
+  });
+
   it('throws unauthorized when the email is unknown', async () => {
     usersService.findAuthUserByEmail.mockResolvedValue(null);
 
@@ -196,6 +210,16 @@ describe('AuthService', () => {
 
     await expect(authService.getMe('user-1')).resolves.toEqual(myUser);
     expect(usersService.findMyUserById).toHaveBeenCalledWith('user-1');
+  });
+
+  it('returns the current user for inactive auth/me requests', async () => {
+    const inactiveUser = {
+      ...myUser,
+      status: UserStatus.INACTIVE,
+    };
+    usersService.findMyUserById.mockResolvedValue(inactiveUser);
+
+    await expect(authService.getMe('user-1')).resolves.toEqual(inactiveUser);
   });
 
   it('throws unauthorized for auth/me when the user is missing', async () => {

@@ -44,6 +44,7 @@ Implement profile endpoints.
 - JWT access token response added for login
 - Authenticated `GET /api/auth/me` endpoint implemented
 - Minimal JWT bearer auth guard added
+- Auth foundation cleanup completed before profile endpoints
 
 ## In progress
 

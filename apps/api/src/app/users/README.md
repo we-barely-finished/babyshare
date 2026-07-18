@@ -8,6 +8,7 @@ Current scope:
 - create a `User` and `UserProfile` in one Prisma transaction
 - fetch users with their profile
 - fetch internal auth user data by email for login
+- update an authenticated user's profile by that user's ID
 - map Prisma data into shared API contracts
 
 The mapper layer is the boundary between database records and API responses. It

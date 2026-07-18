@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, User, UserProfile } from '@prisma/client';
-import { MyUser } from '@babyshare/types';
+import {
+  MyUser,
+  MyUserProfile,
+  UpdateMyUserProfileRequest,
+} from '@babyshare/types';
 import { PrismaService } from '../prisma/prisma.service';
-import { mapMyUser } from './user.mapper';
+import { mapMyUser, mapMyUserProfile } from './user.mapper';
 
 type PrismaUserWithProfile = Prisma.UserGetPayload<{
   include: { profile: true };
@@ -93,6 +97,18 @@ export class UsersService {
     }
 
     return toUserWithProfile(user, user.profile);
+  }
+
+  async updateMyUserProfile(
+    userId: string,
+    input: UpdateMyUserProfileRequest,
+  ): Promise<MyUserProfile> {
+    const profile = await this.prismaService.userProfile.update({
+      where: { userId },
+      data: input,
+    });
+
+    return mapMyUserProfile(profile);
   }
 }
 

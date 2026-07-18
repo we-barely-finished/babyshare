@@ -16,5 +16,6 @@ import { getJwtSecret } from './jwt-secret';
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtAuthGuard],
+  exports: [JwtAuthGuard],
 })
 export class AuthModule {}

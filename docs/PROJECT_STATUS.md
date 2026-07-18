@@ -2,11 +2,11 @@
 
 ## Current phase
 
-Backend foundation implementation.
+Profile backend implementation.
 
 ## Current goal
 
-Implement profile endpoints.
+Implement the next backend vertical slice after own-profile endpoints.
 
 ## Completed
 
@@ -45,28 +45,27 @@ Implement profile endpoints.
 - Authenticated `GET /api/auth/me` endpoint implemented
 - Minimal JWT bearer auth guard added
 - Auth foundation cleanup completed before profile endpoints
+- Authenticated `GET /api/profiles/me` endpoint implemented
+- Authenticated `PATCH /api/profiles/me` endpoint implemented
+- Own-profile validation, trimming, nullable-field clearing, and account-status handling added
 
 ## In progress
 
-- Planning profile endpoints
+- Reviewing the completed own-profile backend slice
 
 ## Next task
 
-Implement profile endpoints:
-
-- `GET /api/profiles/me`
-- `PATCH /api/profiles/me`
+Implement admin user status/role endpoints as the next focused backend slice.
 
 ## Upcoming milestones
 
-1. Add profile endpoints.
-2. Add admin user status/role endpoints.
-3. Implement items.
-4. Implement image upload.
-5. Implement dashboard/search.
-6. Implement chat.
-7. Implement reports/admin.
-8. Implement manual renewals.
+1. Add admin user status/role endpoints.
+2. Implement items.
+3. Implement image upload.
+4. Implement dashboard/search.
+5. Implement chat.
+6. Implement reports/admin.
+7. Implement manual renewals.
 
 ## Notes
 

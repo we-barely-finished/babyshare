@@ -83,10 +83,25 @@ Authenticated current-user endpoint:
 
 ## Profiles
 
-Planned endpoints:
+Implemented own-profile endpoints:
 
 - `GET /api/profiles/me`
 - `PATCH /api/profiles/me`
+
+Own-profile endpoint notes:
+
+- both endpoints require the existing JWT bearer authentication guard
+- responses use the shared `MyUserProfile` contract
+- updates accept only profile fields from `UpdateMyUserProfileRequest`
+- patch strings are trimmed; required fields reject blank values
+- nullable fields accept `null` to clear them, and blank nullable strings normalize to `null`
+- empty patch bodies are rejected
+- unknown authenticated users return `401`; blocked or deleted users return `403`
+- inactive users may view and update their own profile
+- an account without a profile returns `404`
+
+Planned endpoint:
+
 - `GET /api/profiles/:userId`
 
 Public profile endpoint should return only:

@@ -83,13 +83,38 @@ describe('ProfilesService', () => {
     ).rejects.toBeInstanceOf(NotFoundException);
   });
 
-  it('rejects an empty patch without reading or updating persistence', async () => {
+  it('rejects an empty patch after confirming the account and profile exist', async () => {
     await expect(service.updateMyProfile('user-1', {})).rejects.toBeInstanceOf(
       BadRequestException,
     );
-    expect(usersService.findUserWithProfileById).not.toHaveBeenCalled();
+    expect(usersService.findUserWithProfileById).toHaveBeenCalledWith('user-1');
     expect(usersService.updateMyUserProfile).not.toHaveBeenCalled();
   });
+
+  it('preserves unauthorized precedence for an empty patch from a missing account', async () => {
+    usersService.findUserWithProfileById.mockResolvedValue(null);
+
+    await expect(
+      service.updateMyProfile('missing-user', {}),
+    ).rejects.toBeInstanceOf(UnauthorizedException);
+    expect(usersService.updateMyUserProfile).not.toHaveBeenCalled();
+  });
+
+  it.each([UserStatus.BLOCKED, UserStatus.DELETED])(
+    'preserves forbidden precedence for an empty patch from a %s account',
+    async (status) => {
+      usersService.findUserWithProfileById.mockResolvedValue({
+        ...user,
+        status,
+        profile,
+      });
+
+      await expect(service.updateMyProfile('user-1', {})).rejects.toBeInstanceOf(
+        ForbiddenException,
+      );
+      expect(usersService.updateMyUserProfile).not.toHaveBeenCalled();
+    },
+  );
 
   it('passes only the authenticated user ID and patch fields to persistence', async () => {
     usersService.updateMyUserProfile.mockResolvedValue({
@@ -109,6 +134,14 @@ describe('ProfilesService', () => {
       phoneNumber: null,
       bio: null,
     });
+  });
+
+  it('returns not found when the profile disappears during the update', async () => {
+    usersService.updateMyUserProfile.mockResolvedValue(null);
+
+    await expect(
+      service.updateMyProfile('user-1', { city: 'Novi Sad' }),
+    ).rejects.toBeInstanceOf(NotFoundException);
   });
 });
 

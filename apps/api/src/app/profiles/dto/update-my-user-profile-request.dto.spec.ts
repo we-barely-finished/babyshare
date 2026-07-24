@@ -30,6 +30,20 @@ describe('UpdateMyUserProfileRequestDto', () => {
     },
   );
 
+  it.each(['firstName', 'lastName', 'displayName', 'city'])(
+    'rejects explicit null for %s',
+    async (field) => {
+      const dto = plainToInstance(UpdateMyUserProfileRequestDto, {
+        [field]: null,
+      });
+
+      const errors = await validate(dto);
+
+      expect(errors).toHaveLength(1);
+      expect(errors[0].property).toEqual(field);
+    },
+  );
+
   it.each(['phoneNumber', 'municipality', 'addressLine', 'bio'])(
     'keeps explicit null for %s',
     async (field) => {

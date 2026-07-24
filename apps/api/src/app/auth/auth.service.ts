@@ -8,6 +8,10 @@ import { JwtService } from '@nestjs/jwt';
 import { Prisma } from '@prisma/client';
 import { AuthSession, MyUser, UserStatus } from '@babyshare/types';
 import * as argon2 from 'argon2';
+import {
+  normalizeOptionalString,
+  normalizeRequiredString,
+} from '../common/validation/string-normalizers';
 import { UsersService } from '../users/users.service';
 import { mapMyUser } from '../users/user.mapper';
 import { LoginRequestDto } from './dto/login-request.dto';
@@ -97,16 +101,6 @@ export class AuthService {
 
     return user;
   }
-}
-
-function normalizeRequiredString(value: string): string {
-  return value.trim();
-}
-
-function normalizeOptionalString(value?: string | null): string | null {
-  const normalized = value?.trim();
-
-  return normalized ? normalized : null;
 }
 
 function isUniqueConstraintError(error: unknown): boolean {

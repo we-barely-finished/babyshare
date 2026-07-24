@@ -68,6 +68,19 @@ describe('JwtAuthGuard', () => {
       UnauthorizedException,
     );
   });
+
+  it('rejects an unknown user role', async () => {
+    request.headers = { authorization: 'Bearer invalid-role-token' };
+    jwtService.verifyAsync.mockResolvedValue({
+      sub: 'user-1',
+      email: 'parent@example.com',
+      role: 'MODERATOR',
+    });
+
+    await expect(
+      guard.canActivate(createContext(request)),
+    ).rejects.toBeInstanceOf(UnauthorizedException);
+  });
 });
 
 function createContext(request: Partial<RequestWithUser>): ExecutionContext {

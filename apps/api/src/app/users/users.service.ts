@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma, User, UserProfile } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import {
   MyUser,
   MyUserProfile,
@@ -8,12 +8,44 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 import { mapMyUser, mapMyUserProfile } from './user.mapper';
 
-type PrismaUserWithProfile = Prisma.UserGetPayload<{
-  include: { profile: true };
+const profileSelect = {
+  userId: true,
+  firstName: true,
+  lastName: true,
+  displayName: true,
+  phoneNumber: true,
+  city: true,
+  municipality: true,
+  addressLine: true,
+  bio: true,
+} satisfies Prisma.UserProfileSelect;
+
+const userWithProfileSelect = {
+  id: true,
+  email: true,
+  role: true,
+  status: true,
+  profile: { select: profileSelect },
+} satisfies Prisma.UserSelect;
+
+const authUserWithProfileSelect = {
+  ...userWithProfileSelect,
+  passwordHash: true,
+} satisfies Prisma.UserSelect;
+
+export type UserWithOptionalProfile = Prisma.UserGetPayload<{
+  select: typeof userWithProfileSelect;
 }>;
 
-export type AuthUserWithProfile = User & {
-  profile: UserProfile;
+export type AuthUserWithProfile = Omit<
+  Prisma.UserGetPayload<{ select: typeof authUserWithProfileSelect }>,
+  'profile'
+> & {
+  profile: NonNullable<
+    Prisma.UserGetPayload<{
+      select: typeof authUserWithProfileSelect;
+    }>['profile']
+  >;
 };
 
 export interface CreateUserWithProfileInput {
@@ -42,6 +74,12 @@ export class UsersService {
           email: input.email,
           passwordHash: input.passwordHash,
         },
+        select: {
+          id: true,
+          email: true,
+          role: true,
+          status: true,
+        },
       });
 
       const profile = await tx.userProfile.create({
@@ -56,12 +94,13 @@ export class UsersService {
           addressLine: input.addressLine,
           bio: input.bio,
         },
+        select: profileSelect,
       });
 
       return { user, profile };
     });
 
-    return mapMyUser(toUserWithProfile(result.user, result.profile));
+    return mapMyUser({ ...result.user, profile: result.profile });
   }
 
   async findMyUserById(userId: string): Promise<MyUser | null> {
@@ -71,53 +110,56 @@ export class UsersService {
       return null;
     }
 
-    return mapMyUser({
-      ...user,
-      profile: user.profile,
-    });
+    return mapMyUser({ ...user, profile: user.profile });
   }
 
   async findUserWithProfileById(
     userId: string,
-  ): Promise<PrismaUserWithProfile | null> {
+  ): Promise<UserWithOptionalProfile | null> {
     return this.prismaService.user.findUnique({
       where: { id: userId },
-      include: { profile: true },
+      select: userWithProfileSelect,
     });
   }
 
   async findAuthUserByEmail(email: string): Promise<AuthUserWithProfile | null> {
     const user = await this.prismaService.user.findUnique({
       where: { email },
-      include: { profile: true },
+      select: authUserWithProfileSelect,
     });
 
     if (!user?.profile) {
       return null;
     }
 
-    return toUserWithProfile(user, user.profile);
+    return { ...user, profile: user.profile };
   }
 
   async updateMyUserProfile(
     userId: string,
     input: UpdateMyUserProfileRequest,
-  ): Promise<MyUserProfile> {
-    const profile = await this.prismaService.userProfile.update({
-      where: { userId },
-      data: input,
-    });
+  ): Promise<MyUserProfile | null> {
+    try {
+      const profile = await this.prismaService.userProfile.update({
+        where: { userId },
+        data: input,
+        select: profileSelect,
+      });
 
-    return mapMyUserProfile(profile);
+      return mapMyUserProfile(profile);
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        return null;
+      }
+
+      throw error;
+    }
   }
 }
 
-function toUserWithProfile(
-  user: User,
-  profile: UserProfile,
-): PrismaUserWithProfile {
-  return {
-    ...user,
-    profile,
-  };
+function isRecordNotFoundError(error: unknown): boolean {
+  return (
+    error instanceof Prisma.PrismaClientKnownRequestError &&
+    error.code === 'P2025'
+  );
 }

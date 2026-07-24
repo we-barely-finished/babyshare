@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthSession, MyUser } from '@babyshare/types';
 import { AuthService } from './auth.service';
 import { CurrentUserPayload } from './current-user.decorator';
@@ -17,6 +25,7 @@ export class AuthController {
   }
 
   @Post('login')
+  @HttpCode(HttpStatus.OK)
   login(@Body() request: LoginRequestDto): Promise<AuthSession> {
     return this.authService.login(request);
   }

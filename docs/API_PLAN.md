@@ -53,6 +53,7 @@ Notes:
 - Address line should be optional.
 - Bio should be optional.
 - Email verification is out of scope for now.
+- registration returns `201 Created`
 
 Login input:
 
@@ -64,6 +65,8 @@ Login response:
 - `accessToken`
 - `tokenType = Bearer`
 - `user`
+
+Successful login returns `200 OK`.
 
 MVP token decision:
 
@@ -94,6 +97,7 @@ Own-profile endpoint notes:
 - responses use the shared `MyUserProfile` contract
 - updates accept only profile fields from `UpdateMyUserProfileRequest`
 - patch strings are trimmed; required fields reject blank values
+- required patch fields may be omitted, but explicit `null` is rejected
 - nullable fields accept `null` to clear them, and blank nullable strings normalize to `null`
 - empty patch bodies are rejected
 - unknown authenticated users return `401`; blocked or deleted users return `403`

@@ -4,7 +4,7 @@ import {
   mapMyUser,
   mapMyUserProfile,
   mapPublicUserProfile,
-  UserWithProfile,
+  UserWithProfileMapperInput,
 } from './user.mapper';
 
 const user: User = {
@@ -58,7 +58,9 @@ describe('user mappers', () => {
   });
 
   it('maps the current user with account status and profile', () => {
-    expect(mapMyUser({ ...user, profile } satisfies UserWithProfile)).toEqual({
+    expect(
+      mapMyUser({ ...user, profile } satisfies UserWithProfileMapperInput),
+    ).toEqual({
       id: 'user-1',
       email: 'parent@example.com',
       role: UserRole.USER,

@@ -95,5 +95,12 @@ The current user mapper layer:
 - centralizes public/private field selection
 - prevents controllers and services from returning raw Prisma records
 
+User persistence queries use explicit Prisma projections. Credential lookup for
+login is the only read operation that selects `passwordHash`; current-user and
+profile operations select only the account/profile fields their mappers need.
+Prisma-specific record-not-found translation remains in the users persistence
+layer so profile application services operate on null/not-found results instead
+of Prisma error codes.
+
 This keeps privacy decisions close to the backend data boundary and makes future
 API response changes easier to review.

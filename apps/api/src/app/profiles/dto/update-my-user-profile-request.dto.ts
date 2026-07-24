@@ -1,25 +1,33 @@
 import { Transform } from 'class-transformer';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  ValidateIf,
+} from 'class-validator';
 import { UpdateMyUserProfileRequest } from '@babyshare/types';
-import { trimString } from '../../auth/dto/trim-string';
+import {
+  trimNullableString,
+  trimString,
+} from '../../common/validation/string-normalizers';
 
 export class UpdateMyUserProfileRequestDto
   implements UpdateMyUserProfileRequest
 {
   @Transform(({ value }) => trimString(value))
-  @IsOptional()
+  @ValidateIf((_, value) => value !== undefined)
   @IsString()
   @IsNotEmpty()
   firstName?: string;
 
   @Transform(({ value }) => trimString(value))
-  @IsOptional()
+  @ValidateIf((_, value) => value !== undefined)
   @IsString()
   @IsNotEmpty()
   lastName?: string;
 
   @Transform(({ value }) => trimString(value))
-  @IsOptional()
+  @ValidateIf((_, value) => value !== undefined)
   @IsString()
   @IsNotEmpty()
   displayName?: string;
@@ -30,7 +38,7 @@ export class UpdateMyUserProfileRequestDto
   phoneNumber?: string | null;
 
   @Transform(({ value }) => trimString(value))
-  @IsOptional()
+  @ValidateIf((_, value) => value !== undefined)
   @IsString()
   @IsNotEmpty()
   city?: string;
@@ -49,10 +57,4 @@ export class UpdateMyUserProfileRequestDto
   @IsOptional()
   @IsString()
   bio?: string | null;
-}
-
-function trimNullableString(value: unknown): unknown {
-  const trimmed = trimString(value);
-
-  return trimmed === '' ? null : trimmed;
 }

@@ -1,4 +1,3 @@
-import type { User, UserProfile } from '@prisma/client';
 import {
   MyUser,
   MyUserProfile,
@@ -7,15 +6,31 @@ import {
   UserStatus,
 } from '@babyshare/types';
 
-export type UserWithProfile = User & {
-  profile: UserProfile;
-};
+export interface ProfileMapperInput {
+  userId: string;
+  firstName: string;
+  lastName: string;
+  displayName: string;
+  phoneNumber: string | null;
+  city: string;
+  municipality: string | null;
+  addressLine: string | null;
+  bio: string | null;
+}
+
+export interface UserWithProfileMapperInput {
+  id: string;
+  email: string;
+  role: 'USER' | 'ADMIN';
+  status: 'ACTIVE' | 'INACTIVE' | 'BLOCKED' | 'DELETED';
+  profile: ProfileMapperInput;
+}
 
 /**
  * Maps a profile to the fields safe for public profile responses.
  */
 export function mapPublicUserProfile(
-  profile: UserProfile,
+  profile: ProfileMapperInput,
 ): PublicUserProfile {
   return {
     userId: profile.userId,
@@ -29,7 +44,7 @@ export function mapPublicUserProfile(
 /**
  * Maps a profile to the current user's own-profile response shape.
  */
-export function mapMyUserProfile(profile: UserProfile): MyUserProfile {
+export function mapMyUserProfile(profile: ProfileMapperInput): MyUserProfile {
   return {
     ...mapPublicUserProfile(profile),
     firstName: profile.firstName,
@@ -42,7 +57,7 @@ export function mapMyUserProfile(profile: UserProfile): MyUserProfile {
 /**
  * Maps account and profile data to the current-user API contract.
  */
-export function mapMyUser(user: UserWithProfile): MyUser {
+export function mapMyUser(user: UserWithProfileMapperInput): MyUser {
   return {
     id: user.id,
     email: user.email,
@@ -52,7 +67,7 @@ export function mapMyUser(user: UserWithProfile): MyUser {
   };
 }
 
-function mapUserRole(role: User['role']): UserRole {
+function mapUserRole(role: UserWithProfileMapperInput['role']): UserRole {
   switch (role) {
     case 'USER':
       return UserRole.USER;
@@ -61,7 +76,9 @@ function mapUserRole(role: User['role']): UserRole {
   }
 }
 
-function mapUserStatus(status: User['status']): UserStatus {
+function mapUserStatus(
+  status: UserWithProfileMapperInput['status'],
+): UserStatus {
   switch (status) {
     case 'ACTIVE':
       return UserStatus.ACTIVE;

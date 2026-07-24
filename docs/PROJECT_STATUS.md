@@ -48,6 +48,10 @@ Implement the next backend vertical slice after own-profile endpoints.
 - Authenticated `GET /api/profiles/me` endpoint implemented
 - Authenticated `PATCH /api/profiles/me` endpoint implemented
 - Own-profile validation, trimming, nullable-field clearing, and account-status handling added
+- Auth/profile API correctness and privacy hardening completed
+- Required profile patch fields now reject explicit null values
+- Login status, JWT role validation, and database field projections hardened
+- Database-free HTTP contract tests added for auth/profile boundaries
 
 ## In progress
 

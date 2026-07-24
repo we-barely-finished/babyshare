@@ -6,7 +6,7 @@ import {
   MinLength,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { trimString } from './trim-string';
+import { trimString } from '../../common/validation/string-normalizers';
 
 export class RegisterRequestDto {
   @Transform(({ value }) => trimString(value))

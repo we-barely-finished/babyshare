@@ -5,6 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { UserRole } from '@babyshare/types';
 import { Request } from 'express';
 import { JwtUserPayload } from './jwt-user-payload';
 import { RequestWithUser } from './request-with-user';
@@ -63,8 +64,12 @@ function isJwtUserPayload(payload: unknown): payload is JwtUserPayload {
   return (
     isNonEmptyString(candidate.sub) &&
     isNonEmptyString(candidate.email) &&
-    isNonEmptyString(candidate.role)
+    isUserRole(candidate.role)
   );
+}
+
+function isUserRole(value: unknown): value is UserRole {
+  return Object.values(UserRole).some((role) => role === value);
 }
 
 function isNonEmptyString(value: unknown): value is string {

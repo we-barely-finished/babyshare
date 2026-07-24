@@ -5,7 +5,6 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import {
   MyUserProfile,
   UpdateMyUserProfileRequest,
@@ -13,7 +12,6 @@ import {
 } from '@babyshare/types';
 import { mapMyUserProfile } from '../users/user.mapper';
 import { UsersService } from '../users/users.service';
-import { UpdateMyUserProfileRequestDto } from './dto/update-my-user-profile-request.dto';
 
 @Injectable()
 export class ProfilesService {
@@ -31,30 +29,28 @@ export class ProfilesService {
 
   async updateMyProfile(
     userId: string,
-    request: UpdateMyUserProfileRequestDto,
+    request: UpdateMyUserProfileRequest,
   ): Promise<MyUserProfile> {
-    if (Object.keys(request).length === 0) {
-      throw new BadRequestException('At least one profile field is required');
-    }
-
     const user = await this.getAllowedUser(userId);
 
     if (!user.profile) {
       throw new NotFoundException('User profile not found');
     }
 
-    try {
-      return await this.usersService.updateMyUserProfile(
-        userId,
-        request satisfies UpdateMyUserProfileRequest,
-      );
-    } catch (error) {
-      if (isRecordNotFoundError(error)) {
-        throw new NotFoundException('User profile not found');
-      }
-
-      throw error;
+    if (Object.keys(request).length === 0) {
+      throw new BadRequestException('At least one profile field is required');
     }
+
+    const updatedProfile = await this.usersService.updateMyUserProfile(
+      userId,
+      request,
+    );
+
+    if (!updatedProfile) {
+      throw new NotFoundException('User profile not found');
+    }
+
+    return updatedProfile;
   }
 
   private async getAllowedUser(userId: string) {
@@ -73,11 +69,4 @@ export class ProfilesService {
 
     return user;
   }
-}
-
-function isRecordNotFoundError(error: unknown): boolean {
-  return (
-    error instanceof Prisma.PrismaClientKnownRequestError &&
-    error.code === 'P2025'
-  );
 }

@@ -2,11 +2,11 @@
 
 ## Current phase
 
-Profile backend implementation.
+Backend foundation hardening and planning reconciliation.
 
 ## Current goal
 
-Implement the next backend vertical slice after own-profile endpoints.
+Finish foundation hardening, then resolve which product slice comes next.
 
 ## Completed
 
@@ -54,24 +54,35 @@ Implement the next backend vertical slice after own-profile endpoints.
 - Database-free HTTP contract tests added for auth/profile boundaries
 - Repository environment handling and authoritative verification safeguards added
 - Conventional Nx lint targets and minimal GitHub Actions CI added
+- Workspace-level TypeScript strictness enabled for API, web, and shared types
+- Starter root API endpoint removed and health checks moved to `HealthModule`
+- Authentication/authorization source-of-truth rules recorded in ADR 0004
 
 ## In progress
 
-- Reviewing the completed own-profile backend slice
+- Resolving product sequencing after foundation hardening
 
 ## Next task
 
-Implement admin user status/role endpoints as the next focused backend slice.
+Make an explicit product decision between:
+
+- admin user role/status endpoints; or
+- the items vertical slice.
+
+Codex must not choose this sequencing decision.
 
 ## Upcoming milestones
 
-1. Add admin user status/role endpoints.
-2. Implement items.
-3. Implement image upload.
-4. Implement dashboard/search.
-5. Implement chat.
-6. Implement reports/admin.
-7. Implement manual renewals.
+The immediate ordering of admin user management and items is unresolved. After
+that decision, continue with image upload, dashboard/search, chat,
+reports/moderation, and manual renewals in the agreed order.
+
+## Milestone interpretation
+
+- Authentication backend endpoints are implemented; Angular login/register
+  pages are still required before Milestone 4 is complete.
+- Own-profile backend endpoints are implemented; profile view/edit pages are
+  still required before Milestone 5 is complete.
 
 ## Notes
 

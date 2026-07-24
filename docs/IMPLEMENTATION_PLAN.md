@@ -8,6 +8,18 @@ Core user journey:
 
 Register -> create profile -> post item -> browse item -> view item details -> contact seller -> chat.
 
+## How milestone completion is tracked
+
+Backend endpoint completion is not the same as completing a full product
+milestone. Milestones 4 and 5 include Angular pages as well as backend work. The
+authentication and own-profile backend slices are implemented, but those
+milestones remain incomplete until their planned frontend work is delivered.
+
+After foundation hardening, the documents currently present two possible next
+backend slices: admin user role/status operations and items. Their order is a
+product sequencing decision that must be made explicitly; this plan does not
+choose between them.
+
 ## Milestone 0: Repository foundation
 
 Goal: The repo is easy to understand, run, and extend.

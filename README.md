@@ -323,6 +323,12 @@ Each milestone should produce something visible, testable, and easy to review.
 
 ## Current phase
 
-Foundation setup.
+Backend foundation hardening and planning reconciliation.
 
-The immediate goal is to make sure the monorepo, Docker services, NestJS API, Angular frontend, Prisma setup, and project documentation are all in place before feature development begins.
+Repository, infrastructure, Prisma, shared contracts, authentication backend,
+and own-profile backend foundations are in place. Angular authentication and
+profile pages are still needed to complete their full product milestones.
+
+The next product slice has not been selected. The project must explicitly decide
+whether admin user role/status endpoints or the items vertical slice comes
+first; Codex must not make that sequencing decision.

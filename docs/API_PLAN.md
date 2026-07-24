@@ -14,19 +14,23 @@ This document describes planned backend endpoints by module.
 
 ## Health
 
-Implemented or planned endpoints:
+Implemented endpoints:
 
 - `GET /api/health`
 - `GET /api/health/db`
 
 ## Auth
 
-Planned endpoints:
+Implemented endpoints:
 
 - `POST /api/auth/register`
 - `POST /api/auth/login`
-- `POST /api/auth/logout`
 - `GET /api/auth/me`
+
+Deferred:
+
+- `POST /api/auth/logout` is not part of the immediate backend slice; logout
+  token invalidation remains outside the current MVP token design.
 
 MVP registration should create:
 
@@ -78,7 +82,10 @@ MVP token decision:
 Authenticated current-user endpoint:
 
 - `GET /api/auth/me` requires a bearer token
-- token payload is read from `sub`, `email`, and `role`
+- a verified token identifies the subject through `sub`
+- current database account status is authoritative
+- future admin authorization must use the current database role rather than
+  relying only on the JWT role claim
 - response returns the shared `MyUser` contract
 - missing, invalid, expired, or unknown-user tokens return `401`
 - `BLOCKED` or `DELETED` users return `403`

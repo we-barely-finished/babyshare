@@ -2,6 +2,8 @@
   "compileOnSave": false,
   "compilerOptions": {
     "rootDir": ".",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",

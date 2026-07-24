@@ -14,6 +14,7 @@ The API app owns backend behavior.
 Current responsibilities:
 
 - expose HTTP endpoints under the `/api` global prefix
+- compose focused modules through `AppModule`
 - validate incoming request DTOs
 - coordinate application services such as auth and users
 - hash passwords before persistence
@@ -22,6 +23,11 @@ Current responsibilities:
 
 The API should enforce validation, privacy, and authorization rules. Frontend
 checks can improve usability, but they are not a security boundary.
+
+`AppModule` is composition-only. Health checks belong to `HealthModule`;
+authentication, profiles, users, and persistence remain in their focused
+modules. Authentication and authorization source-of-truth rules are recorded in
+[ADR 0004](adr/0004-use-database-account-state-for-authorization.md).
 
 ### `apps/web`
 

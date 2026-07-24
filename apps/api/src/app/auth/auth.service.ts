@@ -95,7 +95,10 @@ export class AuthService {
       throw new UnauthorizedException('User not found');
     }
 
-    if (user.status === UserStatus.BLOCKED || user.status === UserStatus.DELETED) {
+    if (
+      user.status === UserStatus.BLOCKED ||
+      user.status === UserStatus.DELETED
+    ) {
       throw new ForbiddenException('User account cannot access this resource');
     }
 

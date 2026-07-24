@@ -22,9 +22,7 @@ describe('UsersService profile updates', () => {
         }),
       },
     };
-    const service = new UsersService(
-      prismaService as unknown as PrismaService,
-    );
+    const service = new UsersService(prismaService as unknown as PrismaService);
 
     await expect(
       service.updateMyUserProfile('user-1', {

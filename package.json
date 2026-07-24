@@ -2,7 +2,16 @@
   "name": "@babyshare/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "nx run-many -t lint",
+    "test": "nx run-many -t test",
+    "build": "nx run-many -t build",
+    "prisma:generate": "prisma generate",
+    "prisma:validate": "prisma validate",
+    "verify": "npm run format:check && npm run lint && npm run test && npm run build && npm run prisma:validate"
+  },
   "private": true,
   "dependencies": {
     "@angular/common": "~21.2.0",
@@ -52,6 +61,7 @@
     "@types/supertest": "^7.2.1",
     "@typescript-eslint/utils": "^8.40.0",
     "angular-eslint": "^21.2.0",
+    "dotenv": "^17.4.2",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^10.0.0",
     "jest": "~30.3.0",

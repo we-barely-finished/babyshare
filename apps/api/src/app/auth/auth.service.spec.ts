@@ -23,8 +23,14 @@ jest.mock('argon2', () => ({
 describe('AuthService', () => {
   let authService: AuthService;
   let usersService: {
-    createUserWithProfile: jest.Mock<Promise<MyUser>, [CreateUserWithProfileInput]>;
-    findAuthUserByEmail: jest.Mock<Promise<AuthUserWithProfile | null>, [string]>;
+    createUserWithProfile: jest.Mock<
+      Promise<MyUser>,
+      [CreateUserWithProfileInput]
+    >;
+    findAuthUserByEmail: jest.Mock<
+      Promise<AuthUserWithProfile | null>,
+      [string]
+    >;
     findMyUserById: jest.Mock<Promise<MyUser | null>, [string]>;
   };
   let jwtService: {

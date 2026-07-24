@@ -1,10 +1,5 @@
 import { Transform } from 'class-transformer';
-import {
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  ValidateIf,
-} from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, ValidateIf } from 'class-validator';
 import { UpdateMyUserProfileRequest } from '@babyshare/types';
 import {
   trimNullableString,

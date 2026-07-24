@@ -22,11 +22,16 @@ describe('ProfilesService', () => {
       updateMyUserProfile: jest.fn(),
     };
     service = new ProfilesService(usersService as unknown as UsersService);
-    usersService.findUserWithProfileById.mockResolvedValue({ ...user, profile });
+    usersService.findUserWithProfileById.mockResolvedValue({
+      ...user,
+      profile,
+    });
   });
 
   it('returns the mapped own-profile contract', async () => {
-    await expect(service.getMyProfile('user-1')).resolves.toEqual(mappedProfile);
+    await expect(service.getMyProfile('user-1')).resolves.toEqual(
+      mappedProfile,
+    );
   });
 
   it('allows inactive users to view and update their profile', async () => {
@@ -37,7 +42,9 @@ describe('ProfilesService', () => {
     });
     usersService.updateMyUserProfile.mockResolvedValue(mappedProfile);
 
-    await expect(service.getMyProfile('user-1')).resolves.toEqual(mappedProfile);
+    await expect(service.getMyProfile('user-1')).resolves.toEqual(
+      mappedProfile,
+    );
     await expect(
       service.updateMyProfile('user-1', { city: 'Novi Sad' }),
     ).resolves.toEqual(mappedProfile);
@@ -109,9 +116,9 @@ describe('ProfilesService', () => {
         profile,
       });
 
-      await expect(service.updateMyProfile('user-1', {})).rejects.toBeInstanceOf(
-        ForbiddenException,
-      );
+      await expect(
+        service.updateMyProfile('user-1', {}),
+      ).rejects.toBeInstanceOf(ForbiddenException);
       expect(usersService.updateMyUserProfile).not.toHaveBeenCalled();
     },
   );

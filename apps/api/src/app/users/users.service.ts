@@ -122,7 +122,9 @@ export class UsersService {
     });
   }
 
-  async findAuthUserByEmail(email: string): Promise<AuthUserWithProfile | null> {
+  async findAuthUserByEmail(
+    email: string,
+  ): Promise<AuthUserWithProfile | null> {
     const user = await this.prismaService.user.findUnique({
       where: { email },
       select: authUserWithProfileSelect,

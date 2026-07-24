@@ -10,13 +10,13 @@ BabyShare needs to store relational data such as users, profiles, item listings,
 
 The data model has clear relationships:
 
-* users have profiles
-* users post items
-* items have photos
-* users participate in conversations
-* conversations have messages
-* users can report items or other users
-* admins can review reports and renewals
+- users have profiles
+- users post items
+- items have photos
+- users participate in conversations
+- conversations have messages
+- users can report items or other users
+- admins can review reports and renewals
 
 Because of these relationships, a relational database is a strong fit.
 
@@ -28,11 +28,11 @@ PostgreSQL will be used for local development through Docker Compose and later t
 
 Prisma will be used for:
 
-* database schema definition
-* migrations
-* type-safe database access
-* local development tooling
-* Prisma Studio during development
+- database schema definition
+- migrations
+- type-safe database access
+- local development tooling
+- Prisma Studio during development
 
 ## Alternatives considered
 
@@ -56,19 +56,18 @@ Raw SQL provides maximum control, but would require more manual work and more bo
 
 ### Positive
 
-* PostgreSQL is a mature relational database.
-* Prisma gives type-safe database access.
-* Database schema changes can be versioned through migrations.
-* The data model is explicit and easy to review.
-* Prisma works well with TypeScript and NestJS.
+- PostgreSQL is a mature relational database.
+- Prisma gives type-safe database access.
+- Database schema changes can be versioned through migrations.
+- The data model is explicit and easy to review.
+- Prisma works well with TypeScript and NestJS.
 
 ### Negative
 
-* Prisma adds another tool to learn.
-* Some complex queries may require raw SQL later.
-* Migrations need to be handled carefully across environments.
+- Prisma adds another tool to learn.
+- Some complex queries may require raw SQL later.
+- Migrations need to be handled carefully across environments.
 
 ## Notes
 
 This decision supports the goal of learning database modeling, migrations, backend architecture, and production-style development practices.
-

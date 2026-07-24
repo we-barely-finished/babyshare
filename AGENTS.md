@@ -32,6 +32,7 @@ This project is being built in-house as a learning opportunity, not as a rushed 
 ## MVP scope
 
 Included:
+
 - user registration/login
 - user profiles
 - item listings
@@ -47,6 +48,7 @@ Included:
 - manual admin-approved renewals
 
 Excluded for now:
+
 - automated payments
 - profile trust comments
 - native mobile apps
@@ -69,17 +71,30 @@ Excluded for now:
 
 ## Verification expectations
 
+The authoritative repository verification command is:
+
+```bash
+npm run verify
+```
+
+Codex must run this command before declaring a change complete. Focused Nx
+commands may be used during development, but they do not replace the
+authoritative verification run.
+
 For backend changes:
+
 - run relevant Nx build/test commands
 - check TypeScript compilation
 - keep NestJS modules clean
 
 For frontend changes:
+
 - run relevant Nx build/test commands
 - keep Angular components focused
 - avoid putting business rules only in the UI
 
 For database changes:
+
 - update Prisma schema
 - create a migration
 - document the model change in `docs/DATA_MODEL.md`
@@ -87,6 +102,7 @@ For database changes:
 ## Definition of done
 
 A task is done when:
+
 - the feature works locally
 - code builds
 - relevant docs are updated

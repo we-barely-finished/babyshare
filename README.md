@@ -8,12 +8,12 @@ The goal is to build the project in-house from start to finish, using it as a pr
 
 BabyShare allows users to post, browse, and discuss second-hand baby items such as:
 
-* clothes
-* toys
-* strollers
-* baby furniture
-* accessories
-* other baby-related items
+- clothes
+- toys
+- strollers
+- baby furniture
+- accessories
+- other baby-related items
 
 Users can create profiles, post items with photos, browse recently posted items, filter/search listings, view item details, and start a chat with the seller.
 
@@ -23,43 +23,43 @@ The MVP also includes basic admin/moderation functionality and manual listing re
 
 ### Included
 
-* User registration and login
-* User profiles
-* Item listings
-* Mandatory item title, description, category, city, and at least one photo
-* Dashboard with recently posted active items
-* Search by item title
-* Basic filters by category and city
-* Item detail page
-* Buyer/seller chat
-* Report item/user
-* Basic admin panel
-* Listing expiry after 30 days
-* Manual admin-approved listing renewals
+- User registration and login
+- User profiles
+- Item listings
+- Mandatory item title, description, category, city, and at least one photo
+- Dashboard with recently posted active items
+- Search by item title
+- Basic filters by category and city
+- Item detail page
+- Buyer/seller chat
+- Report item/user
+- Basic admin panel
+- Listing expiry after 30 days
+- Manual admin-approved listing renewals
 
 ### Excluded for now
 
-* Automated payments
-* Shipping integration
-* Native mobile apps
-* Profile comments/trust reviews
-* Advanced filters
-* Automated moderation
-* Recommendation engine
-* Complex email notification system
+- Automated payments
+- Shipping integration
+- Native mobile apps
+- Profile comments/trust reviews
+- Advanced filters
+- Automated moderation
+- Recommendation engine
+- Complex email notification system
 
 ## Tech stack
 
-* Monorepo: Nx
-* Frontend: Angular
-* Backend: NestJS
-* Database: PostgreSQL
-* ORM: Prisma
-* Local infrastructure: Docker Compose
-* Shared code: TypeScript libraries under `libs/`
-* Local email testing: Mailpit
-* Future image storage: Cloudflare R2 or S3-compatible storage
-* Future production email: Resend, Postmark, or SES
+- Monorepo: Nx
+- Frontend: Angular
+- Backend: NestJS
+- Database: PostgreSQL
+- ORM: Prisma
+- Local infrastructure: Docker Compose
+- Shared code: TypeScript libraries under `libs/`
+- Local email testing: Mailpit
+- Future image storage: Cloudflare R2 or S3-compatible storage
+- Future production email: Resend, Postmark, or SES
 
 ## Repository structure
 
@@ -98,12 +98,12 @@ For local development, use WSL2/Ubuntu on Windows.
 
 Required tools:
 
-* Git
-* Node.js via `nvm`
-* npm
-* Docker Desktop with WSL2 integration
-* Docker Compose
-* Codex CLI
+- Git
+- Node.js via `nvm`
+- npm
+- Docker Desktop with WSL2 integration
+- Docker Compose
+- Codex CLI
 
 ## Local setup
 
@@ -117,13 +117,23 @@ cd babyshare
 Install dependencies:
 
 ```bash
-npm install
+npm ci
 ```
 
-Create a local environment file:
+Create the untracked local environment file from the repository template:
 
 ```bash
 cp .env.example .env
+```
+
+Review the local-only values in `.env`. The template documents
+`DATABASE_URL`, `JWT_SECRET`, `PORT`, and the Mailpit SMTP settings. Never
+commit `.env`; `.env.example` is the single shareable configuration template.
+
+Generate Prisma Client:
+
+```bash
+npm run prisma:generate
 ```
 
 Start local infrastructure:
@@ -140,17 +150,17 @@ docker ps
 
 The Docker Compose setup starts these local services:
 
-* PostgreSQL service: `postgres`
-* PostgreSQL container: `babyshare-postgres`
-* PostgreSQL database: `babyshare`
-* PostgreSQL user: `babyshare`
-* PostgreSQL password: `babyshare`
-* PostgreSQL port: `5432`
-* Local database URL: `postgresql://babyshare:babyshare@localhost:5432/babyshare?schema=public`
-* Mailpit service: `mailpit`
-* Mailpit container: `babyshare-mailpit`
-* Mailpit SMTP port: `1025`
-* Mailpit web UI: `http://localhost:8025`
+- PostgreSQL service: `postgres`
+- PostgreSQL container: `babyshare-postgres`
+- PostgreSQL database: `babyshare`
+- PostgreSQL user: `babyshare`
+- PostgreSQL password: `babyshare`
+- PostgreSQL port: `5432`
+- Local database URL: `postgresql://babyshare:babyshare@localhost:5432/babyshare?schema=public`
+- Mailpit service: `mailpit`
+- Mailpit container: `babyshare-mailpit`
+- Mailpit SMTP port: `1025`
+- Mailpit web UI: `http://localhost:8025`
 
 Run the backend API:
 
@@ -190,6 +200,15 @@ Run tests:
 npx nx test web
 npx nx test api
 ```
+
+Run the authoritative repository verification:
+
+```bash
+npm run verify
+```
+
+This checks formatting, lints all configured projects, runs tests and builds,
+and validates the Prisma schema.
 
 Run affected checks:
 
@@ -252,15 +271,15 @@ npx prisma studio
 
 Important project docs:
 
-* `AGENTS.md` — instructions for Codex and AI-assisted development
-* `docs/PRODUCT_SCOPE.md` — product scope and MVP boundaries
-* `docs/IMPLEMENTATION_PLAN.md` — ordered implementation roadmap
-* `docs/PROJECT_STATUS.md` — current progress and next task
-* `docs/ARCHITECTURE.md` — technical architecture overview
-* `docs/DATA_MODEL.md` — planned database model
-* `docs/API_PLAN.md` — planned backend API endpoints
-* `docs/CODING_WORKFLOW.md` — development workflow and conventions
-* `docs/adr/` — architecture decision records
+- `AGENTS.md` — instructions for Codex and AI-assisted development
+- `docs/PRODUCT_SCOPE.md` — product scope and MVP boundaries
+- `docs/IMPLEMENTATION_PLAN.md` — ordered implementation roadmap
+- `docs/PROJECT_STATUS.md` — current progress and next task
+- `docs/ARCHITECTURE.md` — technical architecture overview
+- `docs/DATA_MODEL.md` — planned database model
+- `docs/API_PLAN.md` — planned backend API endpoints
+- `docs/CODING_WORKFLOW.md` — development workflow and conventions
+- `docs/adr/` — architecture decision records
 
 ## Codex workflow
 
@@ -268,10 +287,10 @@ Codex should be used as a development assistant, not as an autopilot.
 
 Before coding, Codex should read:
 
-* `AGENTS.md`
-* `docs/PRODUCT_SCOPE.md`
-* `docs/IMPLEMENTATION_PLAN.md`
-* `docs/PROJECT_STATUS.md`
+- `AGENTS.md`
+- `docs/PRODUCT_SCOPE.md`
+- `docs/IMPLEMENTATION_PLAN.md`
+- `docs/PROJECT_STATUS.md`
 
 Codex should work in small, reviewable tasks.
 

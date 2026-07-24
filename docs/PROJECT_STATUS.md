@@ -52,6 +52,8 @@ Implement the next backend vertical slice after own-profile endpoints.
 - Required profile patch fields now reject explicit null values
 - Login status, JWT role validation, and database field projections hardened
 - Database-free HTTP contract tests added for auth/profile boundaries
+- Repository environment handling and authoritative verification safeguards added
+- Conventional Nx lint targets and minimal GitHub Actions CI added
 
 ## In progress
 

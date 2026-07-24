@@ -13,6 +13,7 @@ Register -> create profile -> post item -> browse item -> view item details -> c
 Goal: The repo is easy to understand, run, and extend.
 
 Tasks:
+
 - create docs structure
 - add `AGENTS.md`
 - verify GitHub remote
@@ -21,6 +22,7 @@ Tasks:
 - verify Codex can read project context
 
 Done when:
+
 - docs exist
 - project can be cloned and understood from README/docs
 - Codex has durable project instructions
@@ -30,12 +32,14 @@ Done when:
 Goal: Local database and development services work.
 
 Tasks:
+
 - add Docker Compose with PostgreSQL
 - add Mailpit
 - add `.env.example`
 - document local setup in README
 
 Done when:
+
 - `docker compose up -d` starts services
 - database is reachable
 - Mailpit UI is reachable
@@ -45,6 +49,7 @@ Done when:
 Goal: NestJS API is running and connected to the database.
 
 Tasks:
+
 - add/verify NestJS API app
 - add health endpoint
 - add Prisma
@@ -53,6 +58,7 @@ Tasks:
 - run first migration
 
 Done when:
+
 - `GET /api/health` works
 - Prisma migration runs
 - API can connect to PostgreSQL
@@ -62,11 +68,13 @@ Done when:
 Goal: Frontend and backend share core types.
 
 Tasks:
+
 - create shared type library
 - add enums for item status, user role, report status, renewal status
 - add basic request/response interfaces where useful
 
 Done when:
+
 - both apps can import shared types
 - build passes
 
@@ -75,6 +83,7 @@ Done when:
 Goal: Users can register and log in.
 
 Tasks:
+
 - implement user model
 - implement password hashing
 - implement register endpoint
@@ -84,6 +93,7 @@ Tasks:
 - add Angular login/register pages
 
 Done when:
+
 - user can register
 - user can log in
 - authenticated request works
@@ -93,12 +103,14 @@ Done when:
 Goal: Users can create and edit their profile.
 
 Tasks:
+
 - profile model
 - profile API
 - profile page
 - edit profile form
 
 Done when:
+
 - user can view and update own profile
 
 ## Milestone 6: Items
@@ -106,6 +118,7 @@ Done when:
 Goal: Users can post and view items.
 
 Tasks:
+
 - item model
 - create item endpoint
 - list active items endpoint
@@ -117,6 +130,7 @@ Tasks:
 - create item page
 
 Done when:
+
 - user can create item
 - item appears on dashboard
 - another user can view item details
@@ -126,6 +140,7 @@ Done when:
 Goal: Items can have photos.
 
 Tasks:
+
 - local upload strategy for development
 - item photo model
 - upload endpoint
@@ -133,6 +148,7 @@ Tasks:
 - display item gallery
 
 Done when:
+
 - item must have at least one photo
 - photos display on dashboard/detail page
 
@@ -141,12 +157,14 @@ Done when:
 Goal: Users can discover items.
 
 Tasks:
+
 - search by title
 - filter by category
 - filter by city
 - show only active non-expired items
 
 Done when:
+
 - dashboard supports basic search/filtering
 
 ## Milestone 9: Chat
@@ -154,6 +172,7 @@ Done when:
 Goal: Buyer can contact seller.
 
 Tasks:
+
 - conversation model
 - message model
 - start conversation endpoint
@@ -163,6 +182,7 @@ Tasks:
 - Angular chat UI
 
 Done when:
+
 - two users can exchange messages about an item
 
 ## Milestone 10: Reports and admin
@@ -170,6 +190,7 @@ Done when:
 Goal: Admin can moderate basic problems.
 
 Tasks:
+
 - report model
 - create report endpoint
 - admin list reports
@@ -178,6 +199,7 @@ Tasks:
 - Angular admin pages
 
 Done when:
+
 - user can report item/user
 - admin can hide item and resolve report
 
@@ -186,12 +208,14 @@ Done when:
 Goal: Listings can be manually renewed.
 
 Tasks:
+
 - renewal model
 - request renewal endpoint
 - admin approve/reject renewal
 - extend listing expiry by 30 days
 
 Done when:
+
 - user can request renewal
 - admin can approve renewal
 - item expiry updates
@@ -201,6 +225,7 @@ Done when:
 Goal: The app can be deployed later.
 
 Tasks:
+
 - Dockerfile for API
 - frontend build docs
 - production env docs
@@ -209,4 +234,5 @@ Tasks:
 - deployment ADR
 
 Done when:
+
 - deployment path is documented

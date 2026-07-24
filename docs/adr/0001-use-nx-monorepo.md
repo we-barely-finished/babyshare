@@ -16,12 +16,12 @@ We will use an Nx monorepo.
 
 The repository will contain:
 
-* Angular frontend in `apps/web`
-* NestJS backend in `apps/api`
-* Shared TypeScript code in `libs/`
-* Project documentation in `docs/`
-* Prisma database schema and migrations in `prisma/`
-* Local development infrastructure through Docker Compose
+- Angular frontend in `apps/web`
+- NestJS backend in `apps/api`
+- Shared TypeScript code in `libs/`
+- Project documentation in `docs/`
+- Prisma database schema and migrations in `prisma/`
+- Local development infrastructure through Docker Compose
 
 ## Alternatives considered
 
@@ -41,19 +41,18 @@ A framework such as Next.js could reduce setup complexity, but the goal of this 
 
 ### Positive
 
-* Frontend, backend, shared code, and docs live in one place.
-* Easier local development setup.
-* Easier to share TypeScript types between frontend and backend.
-* Easier for Codex to understand the whole project context.
-* Nx can help with builds, tests, generators, and affected project checks.
+- Frontend, backend, shared code, and docs live in one place.
+- Easier local development setup.
+- Easier to share TypeScript types between frontend and backend.
+- Easier for Codex to understand the whole project context.
+- Nx can help with builds, tests, generators, and affected project checks.
 
 ### Negative
 
-* Nx adds some learning overhead.
-* The repository structure is more complex than a single application.
-* Developers need to understand basic monorepo concepts.
+- Nx adds some learning overhead.
+- The repository structure is more complex than a single application.
+- Developers need to understand basic monorepo concepts.
 
 ## Notes
 
 This decision supports the learning goal of building the project from start to finish while keeping the codebase organized.
-

@@ -15,6 +15,7 @@ The goal is to help families reuse baby items, reduce waste, and support a human
 ### Regular user
 
 Can:
+
 - register and log in
 - create/edit profile
 - post items
@@ -28,6 +29,7 @@ Can:
 ### Admin
 
 Can:
+
 - view users
 - view reports
 - hide items

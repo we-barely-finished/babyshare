@@ -39,18 +39,18 @@ describe('JwtAuthGuard', () => {
   });
 
   it('throws unauthorized when the bearer token is missing', async () => {
-    await expect(guard.canActivate(createContext(request))).rejects.toBeInstanceOf(
-      UnauthorizedException,
-    );
+    await expect(
+      guard.canActivate(createContext(request)),
+    ).rejects.toBeInstanceOf(UnauthorizedException);
   });
 
   it('throws unauthorized when token verification fails', async () => {
     request.headers = { authorization: 'Bearer invalid-token' };
     jwtService.verifyAsync.mockRejectedValue(new Error('invalid token'));
 
-    await expect(guard.canActivate(createContext(request))).rejects.toBeInstanceOf(
-      UnauthorizedException,
-    );
+    await expect(
+      guard.canActivate(createContext(request)),
+    ).rejects.toBeInstanceOf(UnauthorizedException);
   });
 
   it.each([
@@ -60,14 +60,17 @@ describe('JwtAuthGuard', () => {
     { sub: 'user-1', email: '', role: UserRole.USER },
     { sub: 'user-1', email: 'parent@example.com' },
     { sub: 'user-1', email: 'parent@example.com', role: '' },
-  ])('throws unauthorized when token payload shape is invalid', async (payload) => {
-    request.headers = { authorization: 'Bearer invalid-payload-token' };
-    jwtService.verifyAsync.mockResolvedValue(payload);
+  ])(
+    'throws unauthorized when token payload shape is invalid',
+    async (payload) => {
+      request.headers = { authorization: 'Bearer invalid-payload-token' };
+      jwtService.verifyAsync.mockResolvedValue(payload);
 
-    await expect(guard.canActivate(createContext(request))).rejects.toBeInstanceOf(
-      UnauthorizedException,
-    );
-  });
+      await expect(
+        guard.canActivate(createContext(request)),
+      ).rejects.toBeInstanceOf(UnauthorizedException);
+    },
+  );
 
   it('rejects an unknown user role', async () => {
     request.headers = { authorization: 'Bearer invalid-role-token' };
